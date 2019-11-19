@@ -1,6 +1,4 @@
-import {URL} from './Constants';
-
-const request = (options) => {
+export function request(options) {
     let headers = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -14,17 +12,10 @@ const request = (options) => {
     return fetch(options.url, options)
         .then(response => response.json()
             .then(json => {
-            if (!response.ok) {
-                return Promise.reject(json);
-            }
-            return json;
-        })
-    );
-};
-
-export function getDirectorProfile(directorId) {
-    return request({
-        url: URL + "/directors/" + directorId,
-        method: 'GET'
-    });
+                if (!response.ok) {
+                    return Promise.reject(json);
+                }
+                return json;
+            })
+        );
 }
