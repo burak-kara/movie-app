@@ -3,7 +3,7 @@ package com.cs434project.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 
-public abstract class User {
+public class User {
 
     /* BEHAVIORS HERE*/
 
@@ -16,19 +16,39 @@ public abstract class User {
     private String username;
 
 
-    private ArrayList<Movie> favoriteList = new ArrayList<Movie>();
-    private ArrayList<Movie> watchedList = new ArrayList<Movie>();
-    private ArrayList<Movie> likedList = new ArrayList<Movie>();
-    private ArrayList<Movie> dislikedList = new ArrayList<Movie>();
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "favorite")
+    private ArrayList<Movie> favoriteList = new ArrayList<>();
+
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "watched")
+    private ArrayList<Movie> watchedList = new ArrayList<>();
+
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "liked")
+    private ArrayList<Movie> likedList = new ArrayList<>();
+
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "disliked")
+    private ArrayList<Movie> dislikedList = new ArrayList<>();
+
 
     public User(String username) {
         this.username = username;
     }
 
-    public void addFavoriteMovie(Movie m){}
-    public void addWatchedMovie(Movie m){}
-    public void addLikedMovie(Movie m){}
-    public void addDislikedMovie(Movie m){}
+    public void addFavoriteMovie(Movie m){favoriteList.add(m);}
+    public void addWatchedMovie(Movie m){watchedList.add(m);}
+    public void addLikedMovie(Movie m){likedList.add(m);}
+    public void addDislikedMovie(Movie m){dislikedList.add(m);}
 
     public void removeFavoriteMovie(Movie m){favoriteList.remove(m);}
     public void removeWatchedMovie(Movie m){watchedList.remove(m);}
@@ -55,5 +75,4 @@ public abstract class User {
         return dislikedList;
     }
 
-    abstract void display();
 }

@@ -15,12 +15,12 @@ public class Movie {
     private String movieName;
 
     @Column(name = "releaseDate")
-    private Date releaseDate;
+    private String releaseDate;
 
     @Column(name = "director")
     private String director;
 
-    public Movie(String movieName, Date releaseDate, String director){
+    public Movie(String movieName, String releaseDate, String director){
         this.movieName = movieName;
         this.releaseDate = releaseDate;
         this.director = director;
@@ -34,11 +34,11 @@ public class Movie {
         this.movieName = movieName;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
