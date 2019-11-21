@@ -9,5 +9,5 @@ import com.cs434project.model.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-    List<User> findUserbyId(long id);
+
 }
