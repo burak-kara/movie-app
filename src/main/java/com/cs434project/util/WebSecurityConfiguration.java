@@ -10,7 +10,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/movies").permitAll();
-        http.authorizeRequests().antMatchers("/movieEntry").permitAll();
-        http.authorizeRequests().mvcMatchers("").permitAll();
+        http.csrf().disable();
     }
 }

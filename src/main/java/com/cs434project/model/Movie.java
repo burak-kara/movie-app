@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "movie")
-public class Movie implements Observable{
+@Table(name = "movie") // implements Observable
+public class Movie {
 
     // Observer Pattern Movie watchers and notifier *Weather Station* OR Bottom panel that show how many movies in DB
     // Null Object Pattern -> Null Obj DB
@@ -32,8 +32,8 @@ public class Movie implements Observable{
     @Column(name = "director")
     private String director;
 
-    @OneToMany(targetEntity=MovieDisplay.class, mappedBy="movie", fetch=FetchType.EAGER)
-    private List<Observer> observers;
+  //  @OneToMany(targetEntity=MovieDisplay.class, mappedBy="movie", fetch=FetchType.EAGER)
+  //  private List<Observer> observers;
 
 /*    public Movie(String movieName, String releaseDate, String director){
         this.movieName = movieName;
@@ -78,7 +78,7 @@ public class Movie implements Observable{
         return "Movie: " + movieName + "Id: " + id + ", " + releaseDate + ", " + director;
     }
 
-    @Override
+/*    @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
     }
@@ -93,5 +93,5 @@ public class Movie implements Observable{
         for (Observer observer : observers) {
             observer.update(this);
         }
-    }
+    }*/
 }
