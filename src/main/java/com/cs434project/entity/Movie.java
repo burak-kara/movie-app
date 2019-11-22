@@ -6,8 +6,10 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "movie") // implements Observable
-public class Movie {
+@Table(name = "movie")
+@Getter
+@Setter
+public class Movie { // implements Observable
 
     // Observer Pattern Movie watchers and notifier *Weather Station* OR Bottom panel that show how many movies in DB
     // Null Object Pattern -> Null Obj DB
@@ -22,16 +24,16 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_sequence")
     @SequenceGenerator(name = "movie_sequence", sequenceName = "MOVIE_SEQ")
-    @Getter @Setter private long id;
+    private long id;
 
     @Column
-    @Getter @Setter private String movieName;
+    private String movieName;
 
     @Column
-    @Getter @Setter private String releaseDate;
+    private String releaseDate;
 
     @Column
-    @Getter @Setter private String director;
+    private String director;
 
 
 //    **Code Commented Out for the Observable Pattern Implementation later on.**

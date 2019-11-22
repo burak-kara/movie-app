@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user")
+@Getter
+@Setter
 public class User {
 
     /* BEHAVIORS HERE*/
@@ -16,22 +18,22 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     @SequenceGenerator(name = "user_sequence", sequenceName = "USER_SEQ")
-    @Getter @Setter private long id;
+    private long id;
 
     @NotNull
     @Size(max = 16)
     @Column
-    @Getter @Setter private String username;
+    private String username;
 
     @NotNull
     @Size(max = 32)
     @Column
-    @Getter @Setter private String name;
+    private String name;
 
     @NotNull
     @Size(max = 32)
     @Column
-    @Getter @Setter private String surname;
+    private String surname;
 
 
 /*    @OneToMany(cascade = CascadeType.ALL,
