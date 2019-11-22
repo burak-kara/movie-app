@@ -1,4 +1,4 @@
-package com.cs434project.util;
+package com.cs434project.utils;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

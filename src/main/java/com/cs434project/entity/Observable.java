@@ -1,4 +1,4 @@
-package com.cs434project.model;
+package com.cs434project.entity;
 
 public interface Observable {
     // Used to notify users that clicks "getUpdated()"/GetNews from the movie. For ex. incoming movies

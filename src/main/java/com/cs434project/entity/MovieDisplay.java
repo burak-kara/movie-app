@@ -1,4 +1,4 @@
-package com.cs434project.model;
+package com.cs434project.entity;
 
 import javax.persistence.ManyToOne;
 

@@ -1,16 +1,15 @@
-package com.cs434project.service;
+package com.cs434project.service.implementations;
 
-import com.cs434project.model.Movie;
+import com.cs434project.entity.Movie;
 import com.cs434project.repository.MovieRepository;
+import com.cs434project.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
-public class MovieServiceImpl implements MovieService {
+public class MovieServiceImplementation implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
@@ -27,7 +26,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     public Movie getMovie(long id) {
-        return movieRepository.findById(id).get();
+        if(movieRepository.findById(id).isPresent()){ return movieRepository.findById(id).get(); }
+        return null; // this can be replaced by the null obj from the DB. (aka. Null Pattern)
     }
 
     public void deleteMovie(long id) {
