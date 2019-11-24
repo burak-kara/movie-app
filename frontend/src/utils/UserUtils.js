@@ -1,4 +1,4 @@
-import {DELETE, GET, POST, USER_URL, PUT, UPDATE} from "./Constants";
+import {DELETE, GET, POST, USER_URL, PUT} from "./Constants";
 import {request} from "./APIUtils";
 
 export function login(loginParams) {
@@ -86,8 +86,7 @@ export function addMovieToList(userId, listId, movieId) {
 // TODO how to delete movie from the list
 export function deleteMovieFromList(userId, listId, movieId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId,
-        method: POST,
-        body: JSON.stringify(movieId) // TODO possible mistake
+        url: USER_URL + "/" + userId + "/lists/" + listId + "/movies/" + movieId,
+        method: DELETE
     });
 }
