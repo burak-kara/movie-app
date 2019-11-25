@@ -1,0 +1,21 @@
+.director-icon-column {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.director-icon-column:hover {
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.director-info-column {
+    display: flex;
+    flex-direction: row;
+    border: none;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.director-info-column:hover {
+    border: none;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.25);
+}

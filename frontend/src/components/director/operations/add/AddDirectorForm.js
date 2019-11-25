@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getDirectorProfile} from "../../../utils/DirectorUtils";
+import {getDirectorProfile} from "../../../../utils/DirectorUtils";
 
 export default class AddDirectorForm extends Component {
     constructor(props) {

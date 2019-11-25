@@ -1,3 +1,6 @@
+import {WarningPage} from "../commons/warning/WarningPage";
+import React from "react";
+
 export function request(options) {
     let headers = {
         'Content-Type': 'application/json',
@@ -18,4 +21,17 @@ export function request(options) {
                 return json;
             })
         );
+}
+
+export function checkAccessToken(accessToken) {
+    if (!localStorage.getItem(accessToken)) {
+        return (
+            <WarningPage
+                title={"Welcome"}
+                info={"Please Login"}
+                buttonText={"Login"}
+                link={"/"}
+            />
+        )
+    }
 }
