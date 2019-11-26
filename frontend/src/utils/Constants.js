@@ -3,6 +3,7 @@ const URL = 'http://localhost:8080';
 export const USER_URL = URL + "/users";
 export const DIRECTOR_URL = URL + "/directors";
 export const MOVIE_URL = URL + "/movies";
+export const PLACE_URL = URL + "/places";
 
 // HTTP methods
 export const POST = 'POST';
