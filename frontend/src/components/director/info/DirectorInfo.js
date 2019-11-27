@@ -6,9 +6,9 @@ import {WarningPage} from "../../../commons/warning/WarningPage";
 import LoadingIndicator from "../../../commons/LoadingIndicator";
 import {Col, Container, Row} from "react-bootstrap";
 import {Avatar, Descriptions} from "antd";
-import './DirectorProfile.css';
+import './DirectorInfo.css';
 
-export default class DirectorProfile extends Component {
+export default class DirectorInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
