@@ -1,6 +1,7 @@
-import {URL} from './Constants';
+import {WarningPage} from "../commons/warning/WarningPage";
+import React from "react";
 
-const request = (options) => {
+export function request(options) {
     let headers = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -14,17 +15,27 @@ const request = (options) => {
     return fetch(options.url, options)
         .then(response => response.json()
             .then(json => {
-            if (!response.ok) {
-                return Promise.reject(json);
-            }
-            return json;
-        })
-    );
-};
+                if (!response.ok) {
+                    return Promise.reject(json);
+                }
+                return json;
+            })
+        );
+}
 
-export function getDirectorProfile(directorId) {
-    return request({
-        url: URL + "/directors/" + directorId,
-        method: 'GET'
-    });
+export function checkAccessToken(accessToken) {
+    if (!localStorage.getItem(accessToken)) {
+        return (
+            <WarningPage
+                title={"Welcome"}
+                info={"Please Login"}
+                buttonText={"Login"}
+                link={"/"}
+            />
+        )
+    }
+}
+
+export function convertJSONtoIterable(JSON) {
+//    TODO can be deleted
 }
