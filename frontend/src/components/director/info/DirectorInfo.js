@@ -3,7 +3,7 @@ import {checkAccessToken} from "../../../utils/APIUtils";
 import {getDirectorMovies, getDirectorProfile} from "../../../utils/DirectorUtils";
 import {ACCESS_TOKEN} from "../../../utils/Constants";
 import {WarningPage} from "../../../commons/warning/WarningPage";
-import LoadingIndicator from "../../../commons/LoadingIndicator";
+import LoadingIndicator from "../../../commons/loading/LoadingIndicator";
 import {Col, Container, Row} from "react-bootstrap";
 import {Avatar, Descriptions} from "antd";
 import './DirectorInfo.css';

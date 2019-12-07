@@ -1,0 +1,26 @@
+.login {
+    align-self: center;
+    max-width: 25%;
+    margin: 40px auto 0;
+}
+
+.title {
+    text-align: center;
+}
+
+.login-form-container {
+    align-items: center;
+    text-align: center;
+}
+
+.form-group {
+    min-width: 300px;
+    width: 80%;
+    display: inline-block;
+}
+
+.btn-success {
+    margin-top: 20px;
+    width: 40%;
+    text-align: center;
+}

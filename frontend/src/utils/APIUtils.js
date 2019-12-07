@@ -35,7 +35,3 @@ export function checkAccessToken(accessToken) {
         )
     }
 }
-
-export function convertJSONtoIterable(JSON) {
-//    TODO can be deleted
-}
