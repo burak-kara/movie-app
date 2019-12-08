@@ -2,6 +2,10 @@ import React, {Component} from "react";
 import DataRow from "./DataRow";
 
 export default class DataTable extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <table className='table'>
@@ -22,7 +26,8 @@ export default class DataTable extends Component {
         let headers = [];
         for (let key in keys) {
             let str = keys[key];
-            headers.push(<th>{str[0].toUpperCase() + str.slice(1)}</th>);
+            if (str !== "id")
+                headers.push(<th>{str[0].toUpperCase() + str.slice(1)}</th>);
         }
         return headers;
     };

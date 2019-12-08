@@ -1,21 +1,36 @@
-.director-icon-column {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+.director-container {
+    margin-top: 50px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.30);
 }
 
-.director-icon-column:hover {
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.25);
+.director-container:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.50);
 }
 
-.director-info-column {
-    display: flex;
-    flex-direction: row;
-    border: none;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.15);
+.user-icon-row {
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.director-info-column:hover {
-    border: none;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.25);
+.user-icon {
+    vertical-align: middle;
+    font-size: 80px;
+    color: #cecac6;
+}
+
+.info-row {
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.50);*/
+}
+
+.info-col {
+    margin-top: 10px;
+    min-width: 300px;
+}
+
+.info-row-inner{
+    justify-content: center;
+}
+
+.movies-row {
 }

@@ -4,9 +4,12 @@ import {getDirectorMovies, getDirectorProfile} from "../../../utils/DirectorUtil
 import {ACCESS_TOKEN} from "../../../utils/Constants";
 import {WarningPage} from "../../../commons/warning/WarningPage";
 import LoadingIndicator from "../../../commons/loading/LoadingIndicator";
-import {Col, Container, Row} from "react-bootstrap";
-import {Avatar, Descriptions} from "antd";
+import {FaUserAlt} from "react-icons/fa";
+import {IconContext} from "react-icons";
 import './DirectorInfo.css';
+import FilterableTable from "../../../commons/table/FilterableTable";
+import movies from "../../../assets/test_data/movies.json"
+
 
 export default class DirectorInfo extends Component {
     constructor(props) {
@@ -31,47 +34,52 @@ export default class DirectorInfo extends Component {
         this.checkStates();
         // TODO contains
         return (
-            <Container fluid={true}>
-                <Row>
-                    <Col md={{span: 8, offset: 2}} className="director-icon-column">
-                        <Avatar icon="user" style={{color: "#cecac6", fontSize: "80px"}}/>
-                        {/* TODO */}
-                        {/*{this.state.director.name + " " + this.state.director.surname}*/}
-                        {"Christopher Nolan"}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={{span: 8, offset: 2}} className="director-info-column">
-                        <Col>
-                            <Descriptions bordered size="middle">
-                                <Descriptions.Item
-                                    label="Name: "
-                                    span={6}>{"this.state.director.name"} {/* TODO */}
-                                </Descriptions.Item>
-                                <Descriptions.Item
-                                    label="Surname: "
-                                    span={6}>{"this.state.director.surname"} {/* TODO */}
-                                </Descriptions.Item>
-                            </Descriptions>
-                        </Col>
-                        <Col>
-                            <Descriptions bordered size="middle">
-                                <Descriptions.Item
-                                    label="Birth Date: "
-                                    span={6}>{"this.state.director.birthDate.split('T')[0]"} {/* TODO */}
-                                </Descriptions.Item>
-                                <Descriptions.Item
-                                    label="Birth Place: "
-                                    span={6}>{"this.state.director.place" ? "this.state.director.place.name" : "N/A"} {/* TODO */}
-                                </Descriptions.Item>
-                            </Descriptions>
-                        </Col>
-                    </Col>
-                </Row>
-                <Row>
-                    {/*    TODO list movies */}
-                </Row>
-            </Container>
+            <div className="container border director-container">
+                <div className="row user-icon-row">
+                    <IconContext.Provider value={{className: "user-icon"}}>
+                        <div>
+                            <FaUserAlt/>
+                        </div>
+                    </IconContext.Provider>
+                </div>
+                <div className="row justify-content-md-center info-row">
+                    <div className="col col-lg-2 info-col">
+                        <div className="row info-row-inner">
+                            <p className="font-weight-bold">Name:</p>
+                            <p className="font-weight-normal">
+                                {/*    TODO */}
+                                {/*{this.state.director.name}*/}Director Name
+                            </p>
+                        </div>
+                        <div className="row info-row-inner">
+                            <p className="font-weight-bold">{"Surname:"}</p>
+                            <p className="font-weight-normal">
+                                {/*    TODO */}
+                                {/*{this.state.director.surname}*/}Director Surname
+                            </p>
+                        </div>
+                    </div>
+                    <div className="col col-lg-2 info-col">
+                        <div className="row info-row-inner">
+                            <p className="font-weight-bold">{"Birthday:"}</p>
+                            <p className="font-weight-normal">
+                                {/*    TODO */}
+                                {/*{this.state.director.birthday}*/}Director Birthday
+                            </p>
+                        </div>
+                        <div className="row info-row-inner">
+                            <p className="font-weight-bold">{"Place:"}</p>
+                            <p className="font-weight-normal">
+                                {/*    TODO */}
+                                {/*{this.state.director.place}*/}Director Place
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="row movies-row">
+                    <FilterableTable data={movies.movies} buttonText={"Add Movie"}/>
+                </div>
+            </div>
         );
     }
 
