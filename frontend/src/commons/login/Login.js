@@ -40,6 +40,7 @@ export default class Login extends Component {
                         Login
                     </button>
                 </form>
+                {this.renderAlerts()}
             </div>
         );
     }
@@ -57,14 +58,12 @@ export default class Login extends Component {
         })
     };
 
-    // TODO
     renderAlerts = () => {
         if (this.state.renderAlert) {
-            console.log("asddddddd");
             if (this.state.status === 401) {
                 return (
                     <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                        <strong>Error!</strong> Email or password is incorrect.
                         <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -73,7 +72,7 @@ export default class Login extends Component {
             } else {
                 return (
                     <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Holy guacamole!</strong> You should checasdddddddddzzzzzzzzz those fields below.
+                        <strong>Error!</strong> Please try again!
                         <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
