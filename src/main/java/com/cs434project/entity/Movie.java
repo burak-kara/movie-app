@@ -20,6 +20,8 @@ public class Movie { // implements Observable
     // Strategy might be used for User types and their behaviors
     // Command can be used to push multiple OBJ into DB
     // State Pat. can be used for changing movies state aka. Upcoming, In Theatre and Past Movies
+    // Dependency Injection can be used for adding movies to a list
+    // Memento can be used to undo the change in the movie list
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_sequence")

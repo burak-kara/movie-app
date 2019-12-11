@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -36,28 +38,30 @@ public class User {
     private String surname;
 
 
-/*    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "movie")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @ElementCollection
+    @CollectionTable(name = "favorite_list", joinColumns = @JoinColumn(name = "id"))
     private List<Movie> favoriteList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "movie")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @ElementCollection
+    @CollectionTable(name = "watched_list", joinColumns = @JoinColumn(name = "id"))
     private List<Movie> watchedList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "movie")
-    @Fetch(value = FetchMode.SUBSELECT)
+    @ElementCollection
+    @CollectionTable(name = "liked_list", joinColumns = @JoinColumn(name = "id"))
     private List<Movie> likedList = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "movie")
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Movie> dislikedList = new ArrayList<>();*/
+    @ElementCollection
+    @CollectionTable(name = "disliked_list", joinColumns = @JoinColumn(name = "id"))
+    private List<Movie> dislikedList = new ArrayList<>();
+
+    public void addMovieToFavoriteList(Movie m){favoriteList.add(m);}
+    public void addMovieToWatchedList(Movie m){watchedList.add(m);}
+    public void addMovieToLikedList(Movie m){likedList.add(m);}
+    public void addMovieToDislikedList(Movie m){dislikedList.add(m);}
+
+    public void removeMovieToFavoriteList(Movie m){favoriteList.remove(m);}
+    public void removeMovieToWatchedList(Movie m){watchedList.remove(m);}
+    public void removeMovieToLikedList(Movie m){likedList.remove(m);}
+    public void removeMovieToDislikedList(Movie m){dislikedList.remove(m);}
 
 }
