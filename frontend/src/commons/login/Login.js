@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Form, notification} from 'antd';
 import {ACCESS_TOKEN} from "../../utils/Constants";
 import {login} from "../../utils/UserUtils";
 import './Login.css';
@@ -20,7 +19,7 @@ export default class Login extends Component {
             <div className="login">
                 <h1 className="title">Login</h1>
                 <form className="login-form-container needs-validation">
-                    <div className="form-group">
+                    <div className="form-group login-form">
                         <label>Email address</label>
                         <input
                             type="email" className="form-control" name="email"
@@ -36,7 +35,7 @@ export default class Login extends Component {
                             onChange={this.handleChange} required
                         />
                     </div>
-                    <button type="submit" className="btn btn-success" onClick={this.handleSubmit}>
+                    <button type="submit" className="btn btn-success login-btn" onClick={this.handleSubmit}>
                         Login
                     </button>
                 </form>

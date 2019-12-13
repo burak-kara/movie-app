@@ -13,13 +13,13 @@
     text-align: center;
 }
 
-.form-group {
+.login-form {
     min-width: 300px;
     width: 80%;
     display: inline-block;
 }
 
-.btn-success {
+.login-btn {
     margin-top: 20px;
     width: 40%;
     text-align: center;

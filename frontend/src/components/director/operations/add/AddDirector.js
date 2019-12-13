@@ -33,6 +33,7 @@ export default class AddDirector extends Component {
         // TODO contains
         return (
             <div>
+                Add Director
             {/*    TODO */}
             </div>
         );

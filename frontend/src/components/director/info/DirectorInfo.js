@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import {checkAccessToken} from "../../../utils/APIUtils";
+import {checkAccessToken, checkStates} from "../../../utils/APIUtils";
 import {getDirectorMovies, getDirectorProfile} from "../../../utils/DirectorUtils";
 import {ACCESS_TOKEN} from "../../../utils/Constants";
-import {WarningPage} from "../../../commons/warning/WarningPage";
-import LoadingIndicator from "../../../commons/loading/LoadingIndicator";
 import {FaUserAlt} from "react-icons/fa";
 import {IconContext} from "react-icons";
 import './DirectorInfo.css';
@@ -31,10 +29,10 @@ export default class DirectorInfo extends Component {
 
     render() {
         checkAccessToken(ACCESS_TOKEN);
-        this.checkStates();
+        checkStates(this.state);
         // TODO contains
         return (
-            <div className="container border director-container">
+            <div className="container border director-info-container">
                 <div className="row user-icon-row">
                     <IconContext.Provider value={{className: "user-icon"}}>
                         <div>
@@ -77,46 +75,12 @@ export default class DirectorInfo extends Component {
                     </div>
                 </div>
                 <div className="row movies-row">
+                    {/* TODO change movies.movies*/}
                     <FilterableTable data={movies.movies} buttonText={"Add Movie"}/>
                 </div>
             </div>
         );
     }
-
-    checkStates = () => {
-        if (this.state.isLoading) {
-            return <LoadingIndicator/>
-        }
-
-        if (this.state.isBadRequest) {
-            return (
-                <WarningPage
-                    title={"400"}
-                    info={"Bad Request"}
-                    buttonText={"Go Back"}
-                    link={"/"}
-                />
-            )
-        } else if (this.state.isNotFound || !this.state.director) {
-            return (
-                <WarningPage
-                    title={"404"}
-                    info={"The page you are looking for was not found"}
-                    buttonText={"Home"}
-                    link={"/"}
-                />
-            )
-        } else if (this.state.isServerError) {
-            return (
-                <WarningPage
-                    title={"500"}
-                    info={"Oops! Something went wrong"}
-                    buttonText={"Go Back"}
-                    link={"/"}
-                />
-            )
-        }
-    };
 
     loadDirector = (id) => {
         this.setState({isLoading: true});

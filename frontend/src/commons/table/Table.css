@@ -12,7 +12,7 @@
     justify-content: center;
 }
 
-.button-col {
+.add-button-col {
     display: flex;
     justify-content: center;
 }
@@ -24,4 +24,8 @@
 
 .add-button:hover {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.50);
+}
+
+.data-row {
+    float: right;
 }

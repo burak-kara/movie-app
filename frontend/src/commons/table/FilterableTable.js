@@ -10,12 +10,16 @@ export default class FilterableTable extends Component {
         this.state = {
             data: null,
             filterText: '',
+            isNotAdmin: true,
         };
     }
 
     componentDidMount() {
         this.checkData();
-        this.setState({data: this.props.data})
+        this.setState({
+            data: this.props.data,
+            isNotAdmin: this.props.userRole !== "Admin"
+        })
     }
 
     render() {
@@ -51,8 +55,11 @@ export default class FilterableTable extends Component {
                         onChange={this.onChange}
                     />
                 </div>
-                <div className="col button-col">
-                    <button type="button" className="btn btn-primary add-button" onClick={this.handleAddClick}>
+                <div className="col add-button-col">
+                    <button
+                        type="button" className="btn btn-primary add-button"
+                        onClick={this.handleAddClick} disabled={this.state.isNotAdmin}
+                    >
                         {this.props.buttonText}
                     </button>
                 </div>
@@ -61,7 +68,6 @@ export default class FilterableTable extends Component {
     };
 
     onChange = (event) => {
-        console.log(event.target.value);
         this.setState({filterText: event.target.value})
     };
 
@@ -71,7 +77,10 @@ export default class FilterableTable extends Component {
 
     renderDataTable = () => {
         return (
-            <DataTable objects={this.props.data} filterText={this.state.filterText}/>
+            <DataTable
+                objects={this.props.data} filterText={this.state.filterText}
+                deleteHandler={this.props.deleteHandler}
+            />
         );
     };
 }

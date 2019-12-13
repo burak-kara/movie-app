@@ -1,9 +1,9 @@
-.director-container {
+.director-info-container {
     margin-top: 50px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.30);
 }
 
-.director-container:hover {
+.director-info-container:hover {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.50);
 }
 

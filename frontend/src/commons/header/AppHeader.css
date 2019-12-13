@@ -1,4 +1,4 @@
-.bar {
+.app-header-bar {
     font-family: sans-serif;
     list-style-type: none;
     margin: 0;
@@ -8,13 +8,13 @@
     top: 0;
 }
 
-.bar li {
+.app-header-bar li {
     display: inline;
     list-style-type: none;
     color: #FFF;
 }
 
-.bar li a {
+.app-header-bar li a {
     color: #666;
     font-weight: bold;
     text-decoration: none;
@@ -22,7 +22,7 @@
     display: inline-block;
 }
 
-.bar li a:hover {
+.app-header-bar li a:hover {
     background-color: #ddd;
 }
 

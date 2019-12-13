@@ -2,13 +2,9 @@ import React, {Component} from "react";
 import DataRow from "./DataRow";
 
 export default class DataTable extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
-            <table className='table'>
+            <table className='table table-hover'>
                 <thead>
                 <tr>
                     {this.renderHeaders()}
@@ -37,7 +33,7 @@ export default class DataTable extends Component {
     renderRows = () => {
         let rows = [];
         this.props.objects.forEach((object) => {
-            rows.push(<DataRow data={object}/>);
+            rows.push(<DataRow data={object} deleteHandler={this.props.deleteHandler}/>);
         });
         return rows;
     };
