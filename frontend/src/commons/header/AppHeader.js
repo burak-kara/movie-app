@@ -16,6 +16,7 @@ export default class AppHeader extends Component {
     renderUserBar = () => {
         return (
             <ul className="app-header-bar">
+                <img className="header-amblem" src={require('../../assets/images/logo83.png')} />
                 <li><NavLink exact to="/"><FaHome/> Home</NavLink></li>
                 <li><NavLink to="/users">Users</NavLink></li>
                 <li><NavLink to="/movies">Movies</NavLink></li>

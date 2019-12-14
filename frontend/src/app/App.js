@@ -3,16 +3,18 @@ import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Login from "../commons/login/Login";
 import {getCurrentUser} from "../utils/UserUtils";
+
 import AppHeader from "../commons/header/AppHeader";
+import Home from "../commons/home/Home";
 
 import Movies from "../components/movie/Movies";
 import MovieInfo from "../components/movie/info/MovieInfo";
-import AddMovie from "../components/movie/operations/add/AddMovie";
+import AddMovie from "../components/movie/operations/AddMovie";
 
 import Directors from "../components/director/Directors";
 import DirectorInfo from "../components/director/info/DirectorInfo";
-import AddDirector from "../components/director/operations/add/AddDirector";
-import Home from "../commons/home/Home";
+import AddDirector from "../components/director/operations/AddDirector";
+
 import users from "../assets/test_data/users.json";
 
 class App extends Component {
@@ -77,6 +79,16 @@ class App extends Component {
                         }
                     />
                     <Route
+                        exact path="/movies/update/:id"
+                        render={(props) =>
+                            <AddMovie
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
                         exact path="/movies/:id"
                         render={(props) =>
                             <MovieInfo
@@ -107,19 +119,8 @@ class App extends Component {
                         }
                     />
                     <Route
-                        exact path="/directors/add"
+                        exact path="/directors/update/:id"
                         render={(props) =>
-                            <AddDirector
-                                isAuthenticated={this.state.isAuthenticated}
-                                currentUser={this.state.currentUser}
-                                {...props}
-                            />
-                        }
-                    />
-                    <Route
-                        exact path="/directors/update"
-                        render={(props) =>
-                            // TODO change to update
                             <AddDirector
                                 isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser}

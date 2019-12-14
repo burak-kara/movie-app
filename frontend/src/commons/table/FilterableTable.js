@@ -72,14 +72,18 @@ export default class FilterableTable extends Component {
     };
 
     handleAddClick = () => {
-        //    TODO
+        this.props.addHandler();
     };
 
     renderDataTable = () => {
         return (
             <DataTable
-                objects={this.props.data} filterText={this.state.filterText}
+                objects={this.props.data}
+                filterText={this.state.filterText}
+                isNotAdmin={this.state.isNotAdmin}
+                updateHandler={this.props.updateHandler}
                 deleteHandler={this.props.deleteHandler}
+                infoHandler={this.props.infoHandler}
             />
         );
     };

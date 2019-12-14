@@ -4,8 +4,6 @@ import {checkAccessToken, checkStates} from "../../utils/APIUtils";
 import {ACCESS_TOKEN} from "../../utils/Constants";
 import FilterableTable from "../../commons/table/FilterableTable";
 import movies from "../../assets/test_data/movies.json";
-import {confirmAlert} from 'react-confirm-alert';
-import {notification} from 'antd';
 import "./Movies.css";
 
 export default class Movies extends Component {
@@ -34,7 +32,10 @@ export default class Movies extends Component {
                     <FilterableTable
                         data={movies.movies}
                         buttonText={"Add Movie"}
+                        addHandler={this.handleAddClick}
                         deleteHandler={this.handleDeleteClick}
+                        updateHandler={this.handleUpdateClick}
+                        infoHandler={this.handleInfoClick}
                         userRole={this.props.currentUser.role}
                     />
                 </div>
@@ -70,32 +71,32 @@ export default class Movies extends Component {
         }
     };
 
+    handleInfoClick = (movieID) => {
+        console.log("-----------movie info------------" + movieID);
+        this.props.history.push("/movies/" + movieID);
+    };
+
+    handleAddClick = () => {
+        console.log("-----------movie add------------");
+        this.props.history.push("/movies/add");
+    };
+
+    handleUpdateClick = (movieID) => {
+        console.log("-----------movie update------------");
+        this.props.history.push({
+            pathname: "/movies/update/" + movieID,
+            state: {id: movieID}
+        });
+    };
+
     handleDeleteClick = (movieID) => {
-        return (
-            <div className="modal" id="myModal">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h4 className="modal-title">Delete Movie</h4>
-                            <button type="button" className="close" data-dismiss="modal"/>
-                        </div>
-                        <div className="modal-body">
-                            Are you sure to delete the movie?
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-success" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-danger" data-dismiss="modal"
-                                    >Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-        // if (this.props.currentUser.role === "Admin") {
-        //     this.setState({unAuthorized: false});
-        // } else {
-        //     this.setState({unAuthorized: true})
-        // }
+        console.log("-----------movie delete------------");
+        deleteMovie(movieID)
+            .then((result) => {
+                this.loadMovies();
+            }).catch(error => this.catchError(error.status));
+        this.setState({
+            unAuthorized: this.props.currentUser.role !== "Admin"
+        });
     };
 }

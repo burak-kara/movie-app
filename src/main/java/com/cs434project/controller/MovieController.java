@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value = "/movie")
+@RequestMapping(value = "/movie")// localhost:9090/movie/getAll
 public class MovieController {
 
     // This logger can be turned into a class that supports Message-Oriented Arch. Pat. OR chain of responsibility
