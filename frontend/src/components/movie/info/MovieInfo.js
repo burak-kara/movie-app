@@ -30,14 +30,14 @@ export default class MovieInfo extends Component {
                 <div className="row justify-content-md-center info-row">
                     <div className="col col-lg-2 info-col">
                         <div className="row info-row-inner">
-                            <p className="font-weight-bold">Name:</p>
+                            <p className="font-weight-bold">{"Name:"}&nbsp;</p>
                             <p className="font-weight-normal">
                                 {/*    TODO */}
                                 {/*{this.state.movie.name}*/}{movie.name}
                             </p>
                         </div>
                         <div className="row info-row-inner">
-                            <p className="font-weight-bold">{"movie:"}</p>
+                            <p className="font-weight-bold">{"Director:"}&nbsp;</p>
                             <p className="font-weight-normal">
                                 {/*    TODO */}
                                 {/*{this.state.movie.director}*/}{movie.director}
@@ -46,14 +46,14 @@ export default class MovieInfo extends Component {
                     </div>
                     <div className="col col-lg-2 info-col">
                         <div className="row info-row-inner">
-                            <p className="font-weight-bold">{"Year:"}</p>
+                            <p className="font-weight-bold">{"Year:"}&nbsp;</p>
                             <p className="font-weight-normal">
                                 {/*    TODO */}
                                 {/*{this.state.movie.year}*/}{movie.year}
                             </p>
                         </div>
                         <div className="row info-row-inner">
-                            <p className="font-weight-bold">{"Duration:"}</p>
+                            <p className="font-weight-bold" >{"Duration:"}&nbsp;</p>
                             <p className="font-weight-normal">
                                 {/*    TODO */}
                                 {/*{this.state.movie.duration}*/}{movie.duration}
