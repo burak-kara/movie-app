@@ -4,8 +4,6 @@ import {checkAccessToken, checkStates} from "../../utils/APIUtils";
 import {ACCESS_TOKEN} from "../../utils/Constants";
 import FilterableTable from "../../commons/table/FilterableTable";
 import directors from "../../assets/test_data/directors.json";
-import {confirmAlert} from 'react-confirm-alert';
-import {notification} from 'antd';
 import "./Directors.css";
 
 export default class Directors extends Component {
@@ -34,7 +32,10 @@ export default class Directors extends Component {
                     <FilterableTable
                         data={directors.directors}
                         buttonText={"Add Director"}
+                        addHandler={this.handleAddClick}
                         deleteHandler={this.handleDeleteClick}
+                        updateHandler={this.handleUpdateClick}
+                        infoHandler={this.handleInfoClick}
                         userRole={this.props.currentUser.role}
                     />
                 </div>
@@ -70,32 +71,32 @@ export default class Directors extends Component {
         }
     };
 
-    handleDeleteClick = (movieID) => {
-        return (
-            <div className="modal" id="myModal">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h4 className="modal-title">Delete Director</h4>
-                            <button type="button" className="close" data-dismiss="modal"/>
-                        </div>
-                        <div className="modal-body">
-                            Are you sure to delete the director?
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-success" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-danger" data-dismiss="modal"
-                                    >Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-        // if (this.props.currentUser.role === "Admin") {
-        //     this.setState({unAuthorized: false});
-        // } else {
-        //     this.setState({unAuthorized: true})
-        // }
+    handleInfoClick = (directorID) => {
+        console.log("-----------director info------------" + directorID);
+        this.props.history.push("/directors/" + directorID);
+    };
+
+    handleAddClick = () => {
+        console.log("-----------director add------------");
+        this.props.history.push("/directors/add");
+    };
+
+    handleUpdateClick = (directorID) => {
+        console.log("-----------director update------------");
+        this.props.history.push({
+            pathname: "/directors/update/" + directorID,
+            state: {id: directorID}
+        });
+    };
+
+    handleDeleteClick = (directorID) => {
+        console.log("-----------director delete------------");
+        deleteDirector(directorID)
+            .then((result) => {
+                this.loadDirectors();
+            }).catch(error => this.catchError(error.status));
+        this.setState({
+            unAuthorized: this.props.currentUser.role !== "Admin"
+        });
     };
 }

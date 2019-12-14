@@ -4,19 +4,19 @@
       "id": 11,
       "name": "Director1",
       "surname": "Kara",
-      "Birthday": "25.05.2020"
+      "birthday": "25.05.2020"
     },
     {
       "id": 111,
       "name": "asd",
       "surname": "sdasd",
-      "Birthday": "25.05.2020"
+      "birthday": "25.05.2020"
     },
     {
       "id": 102,
       "name": "sdasd",
       "surname": "asdasd",
-      "Birthday": "25.05.2020"
+      "birthday": "25.05.2020"
     }
   ]
 }

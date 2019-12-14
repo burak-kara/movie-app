@@ -14,9 +14,20 @@ export default class DataRow extends Component {
         let columns = [];
         for (let key in this.props.data) {
             if (key !== "id")
-                columns.push(<td>{this.props.data[key]}</td>)
+                columns.push(
+                    <td
+                        onClick={this.handleInfoClick}
+                        style={{"cursor": "pointer"}}
+                    >
+                        {this.props.data[key]}
+                    </td>
+                )
         }
         return columns;
+    };
+
+    handleInfoClick = () => {
+        this.props.infoHandler(this.props.data["id"]);
     };
 
     renderButtons = () => {
@@ -27,6 +38,7 @@ export default class DataRow extends Component {
                         <div className="col">
                             <button
                                 type="button" className="btn btn-success"
+                                disabled={this.props.isNotAdmin}
                                 onClick={this.handleUpdateClick}
                             >
                                 Update
@@ -35,7 +47,8 @@ export default class DataRow extends Component {
                         <div className="col">
                             <button
                                 type="button" className="btn btn-danger"
-                                onClick={this.props.deleteHandler(this.props.data["id"])}
+                                disabled={this.props.isNotAdmin}
+                                onClick={this.handleDeleteClick}
                             >
                                 Delete
                             </button>
@@ -46,11 +59,11 @@ export default class DataRow extends Component {
         );
     };
 
-    handleUpdateClick = () => {
-        //    TODO
+    handleUpdateClick = (id) => {
+        this.props.updateHandler(this.props.data["id"]);
     };
 
     handleDeleteClick = () => {
-        //    TODO
+        this.props.deleteHandler(this.props.data["id"]);
     };
 }

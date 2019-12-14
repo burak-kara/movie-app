@@ -33,7 +33,15 @@ export default class DataTable extends Component {
     renderRows = () => {
         let rows = [];
         this.props.objects.forEach((object) => {
-            rows.push(<DataRow data={object} deleteHandler={this.props.deleteHandler}/>);
+            rows.push(
+                <DataRow
+                    data={object}
+                    isNotAdmin={this.props.isNotAdmin}
+                    updateHandler={this.props.updateHandler}
+                    deleteHandler={this.props.deleteHandler}
+                    infoHandler={this.props.infoHandler}
+                />
+            );
         });
         return rows;
     };
