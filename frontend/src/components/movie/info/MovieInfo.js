@@ -2,10 +2,7 @@ import React, {Component} from 'react';
 import {checkAccessToken, checkStates} from "../../../utils/APIUtils";
 import {getMovieProfile} from "../../../utils/MovieUtils";
 import {ACCESS_TOKEN} from "../../../utils/Constants";
-import {FaUserAlt} from "react-icons/fa";
-import {IconContext} from "react-icons";
 import './MovieInfo.css';
-import FilterableTable from "../../../commons/table/FilterableTable";
 import movie from "../../../assets/test_data/movie.json"
 
 export default class MovieInfo extends Component {
@@ -29,21 +26,21 @@ export default class MovieInfo extends Component {
         checkStates(this.state);
         // TODO contains
         return (
-            <div className="container border director-info-container">
+            <div className="container border movie-info-container">
                 <div className="row justify-content-md-center info-row">
                     <div className="col col-lg-2 info-col">
                         <div className="row info-row-inner">
                             <p className="font-weight-bold">Name:</p>
                             <p className="font-weight-normal">
                                 {/*    TODO */}
-                                {/*{this.state.director.name}*/}{movie.name}
+                                {/*{this.state.movie.name}*/}{movie.name}
                             </p>
                         </div>
                         <div className="row info-row-inner">
-                            <p className="font-weight-bold">{"Director:"}</p>
+                            <p className="font-weight-bold">{"movie:"}</p>
                             <p className="font-weight-normal">
                                 {/*    TODO */}
-                                {/*{this.state.director.surname}*/}{movie.director}
+                                {/*{this.state.movie.director}*/}{movie.director}
                             </p>
                         </div>
                     </div>
@@ -52,14 +49,14 @@ export default class MovieInfo extends Component {
                             <p className="font-weight-bold">{"Year:"}</p>
                             <p className="font-weight-normal">
                                 {/*    TODO */}
-                                {/*{this.state.director.birthday}*/}{movie.year}
+                                {/*{this.state.movie.year}*/}{movie.year}
                             </p>
                         </div>
                         <div className="row info-row-inner">
                             <p className="font-weight-bold">{"Duration:"}</p>
                             <p className="font-weight-normal">
                                 {/*    TODO */}
-                                {/*{this.state.director.place}*/}{movie.duration}
+                                {/*{this.state.movie.duration}*/}{movie.duration}
                             </p>
                         </div>
                     </div>
