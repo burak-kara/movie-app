@@ -7,6 +7,10 @@ import {getCurrentUser} from "../utils/UserUtils";
 import AppHeader from "../commons/header/AppHeader";
 import Home from "../commons/home/Home";
 
+import Movies from "../components/movie/Movies";
+import MovieInfo from "../components/movie/info/MovieInfo";
+import AddMovie from "../components/movie/operations/AddMovie";
+
 import Directors from "../components/director/Directors";
 import DirectorInfo from "../components/director/info/DirectorInfo";
 import AddDirector from "../components/director/operations/AddDirector";
@@ -50,6 +54,46 @@ class App extends Component {
                         render={(props) =>
                             <Login
                                 onLogin={this.handleLogin}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies"
+                        render={(props) =>
+                            <Movies
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/add"
+                        render={(props) =>
+                            <AddMovie
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/update/:id"
+                        render={(props) =>
+                            <AddMovie
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/:id"
+                        render={(props) =>
+                            <MovieInfo
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
                                 {...props}
                             />
                         }
