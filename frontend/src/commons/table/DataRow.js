@@ -13,7 +13,8 @@ export default class DataRow extends Component {
     renderData = () => {
         let columns = [];
         for (let key in this.props.data) {
-            columns.push(<td>{this.props.data[key]}</td>)
+            if (key !== "id")
+                columns.push(<td>{this.props.data[key]}</td>)
         }
         return columns;
     };
@@ -21,13 +22,26 @@ export default class DataRow extends Component {
     renderButtons = () => {
         return (
             <td>
-                <button type="button" className="btn btn-success" onClick={this.handleUpdateClick}>
-                    Update
-                </button>
-                {'  '}
-                <button type="button" className="btn btn-danger" onClick={this.handleDeleteClick}>
-                    Delete
-                </button>
+                <div className="container">
+                    <div className="row justify-content-around data-row">
+                        <div className="col">
+                            <button
+                                type="button" className="btn btn-success"
+                                onClick={this.handleUpdateClick}
+                            >
+                                Update
+                            </button>
+                        </div>
+                        <div className="col">
+                            <button
+                                type="button" className="btn btn-danger"
+                                onClick={this.props.deleteHandler(this.props.data["id"])}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </td>
         );
     };

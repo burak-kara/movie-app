@@ -4,6 +4,9 @@ export const USER_URL = URL + "/users";
 export const DIRECTOR_URL = URL + "/directors";
 export const MOVIE_URL = URL + "/movies";
 export const PLACE_URL = URL + "/places";
+export const ROLE_URL = URL + "/roles";
+export const MOVIE_LIST_URL = URL + "/movieLists";
+
 
 // HTTP methods
 export const POST = 'POST';

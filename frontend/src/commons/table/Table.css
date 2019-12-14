@@ -1,0 +1,31 @@
+.table-container {
+    width: 100%;
+}
+
+.search-row {
+    margin-top: 20px;
+}
+
+.search-col {
+    min-width: 70%;
+    display: flex;
+    justify-content: center;
+}
+
+.add-button-col {
+    display: flex;
+    justify-content: center;
+}
+
+.add-button {
+    min-width: 200px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.30);
+}
+
+.add-button:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.50);
+}
+
+.data-row {
+    float: right;
+}

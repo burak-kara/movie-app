@@ -3,13 +3,13 @@ import {ACCESS_TOKEN} from "../../../../utils/Constants";
 import {checkAccessToken} from "../../../../utils/APIUtils";
 import {WarningPage} from "../../../../commons/warning/WarningPage";
 import {getPlaces} from "../../../../utils/PlaceUtils";
-import {getDirectorProfile} from "../../../../utils/DirectorUtils";
+import {getMovieProfile} from "../../../../utils/MovieUtils";
 
-export default class AddDirector extends Component {
+export default class AddMovie extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            director: null,
+            movie: null,
             places: null,
             isLoading: false,
             isBadRequest: false,
@@ -22,7 +22,7 @@ export default class AddDirector extends Component {
     componentDidMount() {
         this.loadPlaces();
         if (this.props.id) {
-            this.loadDirector(this.props.id);
+            this.loadMovie(this.props.id);
         }
         this.setState({isAuthorized: this.props.currentUser.role === "Admin"})
     }
@@ -33,7 +33,7 @@ export default class AddDirector extends Component {
         // TODO contains
         return (
             <div>
-                Add Director
+                Add Movie
             {/*    TODO */}
             </div>
         );
@@ -90,12 +90,12 @@ export default class AddDirector extends Component {
         }
     };
 
-    loadDirector = (id) => {
+    loadMovie = (id) => {
         this.setState({isLoading: true});
 
-        getDirectorProfile(id).then(response => {
+        getMovieProfile(id).then(response => {
             this.setState({
-                director: response,
+                movie: response,
                 isLoading: false
             });
         }).catch(error => this.catchError(error.status))
