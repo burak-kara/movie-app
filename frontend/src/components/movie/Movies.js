@@ -35,6 +35,8 @@ export default class Movies extends Component {
                         addHandler={this.handleAddClick}
                         deleteHandler={this.handleDeleteClick}
                         updateHandler={this.handleUpdateClick}
+                        watchedHandler={this.handleWatchedClick}
+                        favoriteHandler={this.handleFavoriteClick}
                         infoHandler={this.handleInfoClick}
                         userRole={this.props.currentUser.role}
                     />
@@ -98,5 +100,15 @@ export default class Movies extends Component {
         this.setState({
             unAuthorized: this.props.currentUser.role !== "Admin"
         });
+    };
+
+    handleWatchedClick = (userID, listID, movieID) => {
+        console.log("-----------add movie to watched list------------");
+        this.props.history.push("/"+userID+"/lists/"+listID);// TODO
+    };
+
+    handleFavoriteClick = (userID, listID, movieID) => {
+        console.log("-----------add movie to favorite list------------");
+        this.props.history.push("/"+userID+"/lists/"+listID);// TODO
     };
 }

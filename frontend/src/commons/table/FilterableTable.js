@@ -83,6 +83,8 @@ export default class FilterableTable extends Component {
                 isNotAdmin={this.state.isNotAdmin}
                 updateHandler={this.props.updateHandler}
                 deleteHandler={this.props.deleteHandler}
+                watchedHandler={this.props.watchedHandler}
+                favoriteHandler={this.props.favoriteHandler}
                 infoHandler={this.props.infoHandler}
             />
         );
