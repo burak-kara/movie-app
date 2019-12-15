@@ -146,4 +146,12 @@ export default class DirectorInfo extends Component {
             "movies": this.state.director ? this.state.movies : null,
         }
     };
+
+    handleInfoClick = (directorID) => {
+        console.log("-----------director info------------" + directorID);
+        this.props.history.push({
+            pathname: "/directors/" + directorID,
+            state: {id: directorID}
+        });
+    };
 }
