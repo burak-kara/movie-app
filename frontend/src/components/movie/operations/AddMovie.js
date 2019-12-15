@@ -10,7 +10,8 @@ export default class AddMovie extends Component {
         super(props);
         this.state = {
             movie: null,
-            dateType: "text"
+            dateType: "text",
+            key: null
         }
     }
     componentDidMount() {
@@ -30,8 +31,9 @@ export default class AddMovie extends Component {
         this.checkRole();
         const values = this.assignValues();
         console.log(values);
-        const moviesArray = movies.movies;
-        const distinctDirectorList = Object.keys(moviesArray).map(i => moviesArray[i].director).filter((value,index,self)=> self.indexOf(value)===index);         
+        const moviesArray = movies.movies; // change to response
+        const distinctDirectorList = Object.keys(moviesArray).map(i => moviesArray[i].director).filter((value,index,self)=> self.indexOf(value)===index);
+        // value of select is not dynamically changing!
         return (
             <div className="container border movie-list-container">
                 <div className="row">
@@ -44,14 +46,14 @@ export default class AddMovie extends Component {
                             onChange={this.handleChange}
                         />
                         <label>Director</label>
-                            <select className="custom-select" onChange={this.handleChange} value={this.state.director}>
+                            <select className="custom-select" onChange={this.handleChange.bind(this)}>
                                 <option selected>Choose a Director</option>
                                 {Object.keys(distinctDirectorList).map( i =>
-                                    <option onChange={this.handleChange} value={distinctDirectorList[i]}> {distinctDirectorList[i]} 
+                                    <option value={distinctDirectorList[i]}> {distinctDirectorList[i]} 
                                     </option>
                                     )
                                 }
-                            </select>
+                            </select>   
                         <label>Year</label>
                         <input
                             type="text" className="form-control"
@@ -188,4 +190,9 @@ export default class AddMovie extends Component {
     handleBackClick = () => {
         this.props.history.push('/movies');
     };
+
+    // handleTextFieldChange(event){
+    //     let loc =event.target.value;
+    //     this.props.setState(loc,'key');
+    // }
 }

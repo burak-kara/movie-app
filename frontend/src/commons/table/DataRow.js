@@ -31,8 +31,8 @@ export default class DataRow extends Component {
     };
 
     renderButtons = () => {
-        var buttonLeftText = this.props.isNotAdmin ? ("Add Watched List"):("Update");
-        var buttonRightText = this.props.isNotAdmin ? ("Add Favorite List"):("Delete");
+        var buttonLeftText = this.props.isNotAdmin ? ("Watched"):("Update");
+        var buttonRightText = this.props.isNotAdmin ? ("Favorite"):("Delete");
         return (
             <td>
                 <div className="container">
