@@ -1,0 +1,31 @@
+{
+  "director": {
+    "id": 11,
+    "name": "Burak",
+    "surname": "Kara",
+    "Birthday": "25.05.2020",
+    "movies": [
+      {
+        "id": 1000,
+        "name": "The Irishman",
+        "director": "Burak Kara",
+        "year": "2019",
+        "duration": "120"
+      },
+      {
+        "id": 1001,
+        "name": "Lotr",
+        "director": "Burak Kara",
+        "year": "2000",
+        "duration": "160"
+      },
+      {
+        "id": 103,
+        "name": "Got",
+        "director": "Burak Kara",
+        "year": "2010",
+        "duration": "150"
+      }
+    ]
+  }
+}

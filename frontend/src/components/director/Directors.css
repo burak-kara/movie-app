@@ -1,0 +1,13 @@
+.director-list-container {
+    margin-top: 50px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.30);
+}
+
+.director-list-container:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.50);
+}
+
+.add-director {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

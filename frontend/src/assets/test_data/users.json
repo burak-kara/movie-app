@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1000,
+      "name": "Burak",
+      "surname": "Kara",
+      "birthday": "26.05.2019",
+      "place": "Mugla",
+      "role": "Admin"
+    },
+    {
+      "id": 124,
+      "name": "Burak",
+      "surname": "Kara",
+      "birthday": "26.05.2019",
+      "place": "Mugla",
+      "role": "user"
+    },
+    {
+      "id": 125,
+      "name": "Burak",
+      "surname": "Kara",
+      "birthday": "26.05.2019",
+      "place": "Mugla",
+      "role": "user"
+    }
+  ]
+}
