@@ -140,13 +140,13 @@ export default class AddMovie extends Component {
 
     loadMovie = (id) => {
         // this.setState({isLoading: true});
-        //
-        // getDirectorProfile(id).then(response => {
+        // getMovieProfile(id).then(response => {
         //     this.setState({
-        //         director: response,
+        //         movie: response,
         //         name: response.name,
-        //         surname: response.surname,
-        //         birthday: response.birthday,
+        //         director: response.director,
+        //         year: response.year,
+        //         duration: response.duration
         //         isLoading: false
         //     });
         // }).catch(error => this.catchError(error.status))
