@@ -25,11 +25,14 @@ export default class AddMovie extends Component {
         this.setState({isAuthorized: this.props.currentUser.role === "Admin"})
     }
 
+        //{moviess((x,y) => <option key={y}>{x}</option>)}  <option value={moviess[i]}>{moviess[i].director}</option>
     render() {
         checkAccessToken(ACCESS_TOKEN);
         this.checkRole();
         const values = this.assignValues();
         console.log(values);
+        const moviess = movies.movies;
+        const distinctDirectorList = Object.keys(moviess).map(i => moviess[i].director).filter((value,index,self)=> self.indexOf(value)===index);         
         return (
             <div className="container border movie-list-container">
                 <div className="row">
@@ -42,12 +45,14 @@ export default class AddMovie extends Component {
                             onChange={this.handleChange}
                         />
                         <label>Director</label>
-                        <input
-                            type="text" className="form-control"
-                            name="director" value={values.director}
-                            placeholder="Enter director name"
-                            onChange={this.handleChange}
-                        />
+                            <select className="custom-select" onChange={this.handleChange} value={this.state.director}>
+                                <option selected>Choose a Director</option>
+                                {Object.keys(distinctDirectorList).map( i =>
+                                    <option onChange={this.handleChange} value={distinctDirectorList[i]}> {distinctDirectorList[i]} 
+                                    </option>
+                                    )
+                                }
+                            </select>
                         <label>Year</label>
                         <input
                             type="text" className="form-control"
@@ -125,6 +130,7 @@ export default class AddMovie extends Component {
     };
 
     assignValues = () => {
+        console.log(this.state.name);
         return {
             "name": this.state.movie ? this.state.name : "",
             "director": this.state.movie ? this.state.director : "",
@@ -148,13 +154,14 @@ export default class AddMovie extends Component {
         // TODO delete
         const moviess = movies.movies;
         for (let i = 0; i < moviess.length; i++) {
+            console.log(moviess[i]);
             if (moviess[i].id === id) {
-                console.log(moviess[i]);
                 this.setState({
                     movie: moviess[i],
                     name: moviess[i].name,
-                    surname: moviess[i].surname,
-                    birthday: moviess[i].birthday
+                    director: moviess[i].director,
+                    year: moviess[i].year,
+                    duration: moviess[i].duration
                 });
             }
         }

@@ -6,16 +6,3 @@
 .movie-info-container:hover {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.50);
 }
-
-.info-row {
-    /*border-bottom: 1px solid rgba(0, 0, 0, 0.50);*/
-}
-
-.info-col {
-    margin-top: 10px;
-    min-width: 300px;
-}
-
-.info-row-inner{
-    justify-content: center;
-}

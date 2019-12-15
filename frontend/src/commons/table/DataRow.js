@@ -34,36 +34,72 @@ export default class DataRow extends Component {
         return (
             <td>
                 <div className="container">
-                    <div className="row justify-content-around data-row">
-                        <div className="col">
-                            <button
-                                type="button" className="btn btn-success"
-                                disabled={this.props.isNotAdmin}
-                                onClick={this.handleUpdateClick}
-                            >
-                                Update
-                            </button>
-                        </div>
-                        <div className="col">
-                            <button
-                                type="button" className="btn btn-danger"
-                                disabled={this.props.isNotAdmin}
-                                onClick={this.handleDeleteClick}
-                            >
-                                Delete
-                            </button>
+                    {(this.props.isNotAdmin)?(
+                    <div>
+                        <div className="row justify-content-around data-row">
+                            <div className="col">
+                                <button
+                                    type="button" className="btn btn-success"
+                                    disabled={this.props.isNotAdmin}
+                                    onClick={this.handleWatchedClick}
+                                >
+                                    Add Watched List
+                                </button>
+                            </div>
+                            <div className="col">
+                                <button
+                                    type="button" className="btn btn-danger"
+                                    disabled={this.props.isNotAdmin}
+                                    onClick={this.handleFavoriteClick}
+                                >
+                                    Add Favorite List
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    ):(
+                    <div>
+                        <div className="row justify-content-around data-row">
+                            <div className="col">
+                                <button
+                                    type="button" className="btn btn-success"
+                                    disabled={this.props.isNotAdmin}
+                                    onClick={this.handleUpdateClick}
+                                >
+                                    Update
+                                </button>
+                            </div>
+                            <div className="col">
+                                <button
+                                    type="button" className="btn btn-danger"
+                                    disabled={this.props.isNotAdmin}
+                                    onClick={this.handleDeleteClick}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    )}
                 </div>
             </td>
         );
     };
 
+    
     handleUpdateClick = (id) => {
         this.props.updateHandler(this.props.data["id"]);
     };
 
     handleDeleteClick = () => {
         this.props.deleteHandler(this.props.data["id"]);
+    };
+
+    handleWatchedClick = (id) => {
+        this.props.watchedHandler(this.props.data["id"]);
+    };
+
+    handleFavoriteClick = () => {
+        this.props.favoriteHandler(this.props.data["id"]);
     };
 }
