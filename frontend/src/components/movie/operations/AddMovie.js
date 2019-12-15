@@ -25,14 +25,13 @@ export default class AddMovie extends Component {
         this.setState({isAuthorized: this.props.currentUser.role === "Admin"})
     }
 
-        //{moviess((x,y) => <option key={y}>{x}</option>)}  <option value={moviess[i]}>{moviess[i].director}</option>
     render() {
         checkAccessToken(ACCESS_TOKEN);
         this.checkRole();
         const values = this.assignValues();
         console.log(values);
-        const moviess = movies.movies;
-        const distinctDirectorList = Object.keys(moviess).map(i => moviess[i].director).filter((value,index,self)=> self.indexOf(value)===index);         
+        const moviesArray = movies.movies;
+        const distinctDirectorList = Object.keys(moviesArray).map(i => moviesArray[i].director).filter((value,index,self)=> self.indexOf(value)===index);         
         return (
             <div className="container border movie-list-container">
                 <div className="row">
@@ -152,16 +151,16 @@ export default class AddMovie extends Component {
         //     });
         // }).catch(error => this.catchError(error.status))
         // TODO delete
-        const moviess = movies.movies;
-        for (let i = 0; i < moviess.length; i++) {
-            console.log(moviess[i]);
-            if (moviess[i].id === id) {
+        const moviesArray = movies.movies;
+        for (let i = 0; i < moviesArray.length; i++) {
+            console.log(moviesArray[i]);
+            if (moviesArray[i].id === id) {
                 this.setState({
-                    movie: moviess[i],
-                    name: moviess[i].name,
-                    director: moviess[i].director,
-                    year: moviess[i].year,
-                    duration: moviess[i].duration
+                    movie: moviesArray[i],
+                    name: moviesArray[i].name,
+                    director: moviesArray[i].director,
+                    year: moviesArray[i].year,
+                    duration: moviesArray[i].duration
                 });
             }
         }
