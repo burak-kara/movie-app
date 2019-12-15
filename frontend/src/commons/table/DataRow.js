@@ -31,56 +31,33 @@ export default class DataRow extends Component {
     };
 
     renderButtons = () => {
+        var buttonLeftText = this.props.isNotAdmin ? ("Add Watched List"):("Update");
+        var buttonRightText = this.props.isNotAdmin ? ("Add Favorite List"):("Delete");
         return (
             <td>
                 <div className="container">
-                    {(this.props.isNotAdmin)?(
                     <div>
                         <div className="row justify-content-around data-row">
                             <div className="col">
                                 <button
                                     type="button" className="btn btn-success"
                                     disabled={this.props.isNotAdmin}
-                                    onClick={this.handleWatchedClick}
+                                    onClick={this.props.isNotAdmin?(this.handleWatchedClick):(this.handleUpdateClick)}
                                 >
-                                    Add Watched List
+                                    {buttonLeftText}
                                 </button>
                             </div>
                             <div className="col">
                                 <button
                                     type="button" className="btn btn-danger"
                                     disabled={this.props.isNotAdmin}
-                                    onClick={this.handleFavoriteClick}
-                                >
-                                    Add Favorite List
+                                    onClick={this.props.isNotAdmin ? (this.handleFavoriteClick):(this.handleDeleteClick)}
+                                >   
+                                {buttonRightText}
                                 </button>
                             </div>
                         </div>
                     </div>
-                    ):(
-                    <div>
-                        <div className="row justify-content-around data-row">
-                            <div className="col">
-                                <button
-                                    type="button" className="btn btn-success"
-                                    disabled={this.props.isNotAdmin}
-                                    onClick={this.handleUpdateClick}
-                                >
-                                    Update
-                                </button>
-                            </div>
-                            <div className="col">
-                                <button
-                                    type="button" className="btn btn-danger"
-                                    disabled={this.props.isNotAdmin}
-                                    onClick={this.handleDeleteClick}
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    )}
                 </div>
             </td>
         );
