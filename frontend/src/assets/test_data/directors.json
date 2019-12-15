@@ -4,19 +4,88 @@
       "id": 11,
       "name": "Director1",
       "surname": "Kara",
-      "birthday": "25.05.2020"
+      "birthday": "25.05.2020",
+      "movies": [
+        {
+          "id": 1000,
+          "name": "The Irishman",
+          "director": "Burak Kara",
+          "year": "2019",
+          "duration": "120"
+        },
+        {
+          "id": 1001,
+          "name": "Lotr",
+          "director": "Burak Kara",
+          "year": "2000",
+          "duration": "160"
+        },
+        {
+          "id": 103,
+          "name": "Got",
+          "director": "Burak Kara",
+          "year": "2010",
+          "duration": "150"
+        }
+      ]
     },
     {
       "id": 111,
       "name": "asd",
       "surname": "sdasd",
-      "birthday": "25.05.2020"
+      "birthday": "25.05.2020",
+      "movies": [
+        {
+          "id": 1000,
+          "name": "The Irishman",
+          "director": "Burak Kara",
+          "year": "2019",
+          "duration": "120"
+        },
+        {
+          "id": 1001,
+          "name": "Lotr",
+          "director": "Burak Kara",
+          "year": "2000",
+          "duration": "160"
+        },
+        {
+          "id": 103,
+          "name": "Got",
+          "director": "Burak Kara",
+          "year": "2010",
+          "duration": "150"
+        }
+      ]
     },
     {
       "id": 102,
       "name": "sdasd",
       "surname": "asdasd",
-      "birthday": "25.05.2020"
+      "birthday": "25.05.2020",
+      "movies": [
+        {
+          "id": 1000,
+          "name": "The Irishman",
+          "director": "Burak Kara",
+          "year": "2019",
+          "duration": "120"
+        },
+        {
+          "id": 1001,
+          "name": "Lotr",
+          "director": "Burak Kara",
+          "year": "2000",
+          "duration": "160"
+        },
+        {
+          "id": 103,
+          "name": "Got",
+          "director": "Burak Kara",
+          "year": "2010",
+          "duration": "150"
+        }
+      ]
     }
   ]
 }

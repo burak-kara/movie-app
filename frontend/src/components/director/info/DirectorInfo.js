@@ -4,10 +4,9 @@ import {getDirectorMovies, getDirectorProfile} from "../../../utils/DirectorUtil
 import {ACCESS_TOKEN} from "../../../utils/Constants";
 import {FaUserAlt} from "react-icons/fa";
 import {IconContext} from "react-icons";
-import './DirectorInfo.css';
 import FilterableTable from "../../../commons/table/FilterableTable";
-import movies from "../../../assets/test_data/movies.json"
-
+import directors from "../../../assets/test_data/directors.json";
+import './DirectorInfo.css';
 
 export default class DirectorInfo extends Component {
     constructor(props) {
@@ -15,22 +14,26 @@ export default class DirectorInfo extends Component {
         this.state = {
             director: null,
             movies: null,
-            isLoading: false,
-            isBadRequest: false,
-            isNotFound: false,
-            isServerError: false,
         }
     }
 
     componentDidMount() {
-        this.loadDirector(this.props.id);
-        this.loadDirectorMovies(this.props.id);
+        let id;
+        if (this.props.location.state) {
+            console.log("aaaaaaaaaaaaaaaaaaaa");
+            id = this.props.location.state.id;
+        }
+        if (id) {
+            this.loadDirector(id);
+            this.loadDirectorMovies(id);
+        }
     }
 
     render() {
         checkAccessToken(ACCESS_TOKEN);
         checkStates(this.state);
-        // TODO contains
+        const values = this.assignValues();
+        console.log(values);
         return (
             <div className="container border director-info-container">
                 <div className="row user-icon-row">
@@ -45,15 +48,13 @@ export default class DirectorInfo extends Component {
                         <div className="row info-row-inner">
                             <p className="font-weight-bold">Name:</p>
                             <p className="font-weight-normal">
-                                {/*    TODO */}
-                                {/*{this.state.director.name}*/}Director Name
+                                {values.name}
                             </p>
                         </div>
                         <div className="row info-row-inner">
                             <p className="font-weight-bold">{"Surname:"}</p>
                             <p className="font-weight-normal">
-                                {/*    TODO */}
-                                {/*{this.state.director.surname}*/}Director Surname
+                                {values.surname}
                             </p>
                         </div>
                     </div>
@@ -61,22 +62,13 @@ export default class DirectorInfo extends Component {
                         <div className="row info-row-inner">
                             <p className="font-weight-bold">{"Birthday:"}</p>
                             <p className="font-weight-normal">
-                                {/*    TODO */}
-                                {/*{this.state.director.birthday}*/}Director Birthday
-                            </p>
-                        </div>
-                        <div className="row info-row-inner">
-                            <p className="font-weight-bold">{"Place:"}</p>
-                            <p className="font-weight-normal">
-                                {/*    TODO */}
-                                {/*{this.state.director.place}*/}Director Place
+                                {values.birthday}
                             </p>
                         </div>
                     </div>
                 </div>
                 <div className="row movies-row">
-                    {/* TODO change movies.movies*/}
-                    <FilterableTable data={movies.movies} buttonText={"Add Movie"}/>
+                    {/*<FilterableTable data={values.movies} buttonText={"Add Movie"}/>*/}
                 </div>
             </div>
         );
@@ -85,12 +77,26 @@ export default class DirectorInfo extends Component {
     loadDirector = (id) => {
         this.setState({isLoading: true});
 
-        getDirectorProfile(id).then(response => {
-            this.setState({
-                director: response,
-                isLoading: false
-            });
-        }).catch(error => this.catchError(error.status))
+        // getDirectorProfile(id).then(response => {
+        //     this.setState({
+        //         director: response,
+        //         isLoading: false
+        //     });
+        // }).catch(error => this.catchError(error.status));
+        // TODO delete
+        const directorss = directors.directors;
+        for (let i = 0; i < directorss.length; i++) {
+            if (directorss[i].id === id) {
+                console.log(directorss[i].id);
+                this.setState({
+                    director: directorss[i],
+                    name: directorss[i].name,
+                    surname: directorss[i].surname,
+                    birthday: directorss[i].birthday,
+                    isLoading: false
+                });
+            }
+        }
     };
 
     catchError = (status) => {
@@ -113,13 +119,31 @@ export default class DirectorInfo extends Component {
     };
 
     loadDirectorMovies = (id) => {
-        this.setState({isLoading: true});
+        // this.setState({isLoading: true});
+        //
+        // getDirectorMovies(id).then(response => {
+        //     this.setState({
+        //         movies: response,
+        //         isLoading: false
+        //     });
+        // }).catch(error => this.catchError(error.status));
+        //    TODO
+        const directorss = directors.directors;
+        for (let i = 0; i < directorss.length; i++) {
+            if (directorss[i].id === id) {
+                this.setState({
+                    movies: directorss[i].movies
+                });
+            }
+        }
+    };
 
-        getDirectorMovies(id).then(response => {
-            this.setState({
-                movies: response,
-                isLoading: false
-            });
-        }).catch(error => this.catchError(error.status))
-    }
+    assignValues = () => {
+        return {
+            "name": this.state.director ? this.state.name : "",
+            "surname": this.state.director ? this.state.surname : "",
+            "birthday": this.state.director ? this.state.birthday : "",
+            "movies": this.state.director ? this.state.movies : null,
+        }
+    };
 }

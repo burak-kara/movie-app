@@ -73,7 +73,10 @@ export default class Directors extends Component {
 
     handleInfoClick = (directorID) => {
         console.log("-----------director info------------" + directorID);
-        this.props.history.push("/directors/" + directorID);
+        this.props.history.push({
+            pathname: "/directors/" + directorID,
+            state: {id: directorID}
+        });
     };
 
     handleAddClick = () => {

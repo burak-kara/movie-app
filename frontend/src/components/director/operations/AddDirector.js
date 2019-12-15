@@ -142,7 +142,7 @@ export default class AddDirector extends Component {
         //         birthday: response.birthday,
         //         isLoading: false
         //     });
-        // }).catch(error => this.catchError(error.status))
+        // }).catch(error => this.catchError(error.status));
         // TODO delete
         const directorss = directors.directors;
         for (let i = 0; i < directorss.length; i++) {

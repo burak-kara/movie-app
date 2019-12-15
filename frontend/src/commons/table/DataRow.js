@@ -13,7 +13,7 @@ export default class DataRow extends Component {
     renderData = () => {
         let columns = [];
         for (let key in this.props.data) {
-            if (key !== "id")
+            if (key !== "id" && key !== "movies")
                 columns.push(
                     <td
                         onClick={this.handleInfoClick}
@@ -59,7 +59,7 @@ export default class DataRow extends Component {
         );
     };
 
-    handleUpdateClick = (id) => {
+    handleUpdateClick = () => {
         this.props.updateHandler(this.props.data["id"]);
     };
 
