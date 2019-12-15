@@ -29,7 +29,7 @@ export default class MovieInfo extends Component {
             <div className="container border movie-info-container">
                 <div className="row justify-content-md-center info-row">
                     <img className="image-container col-lg-2" src={require('../../../assets/images/logo83.png')} />
-                    <div className="col col-lg-2 info-col">
+                    <div className="col col-lg-2 movie-info-col">
                         <div className="row info-row-inner">
                             <p className="font-weight-bold">{"Name:"}&nbsp;</p>
                             <p className="font-weight-normal">
@@ -45,7 +45,7 @@ export default class MovieInfo extends Component {
                             </p>
                         </div>
                     </div>
-                    <div className="col col-lg-2 info-col">
+                    <div className="col col-lg-2 movie-info-col">
                         <div className="row info-row-inner">
                             <p className="font-weight-bold">{"Year:"}&nbsp;</p>
                             <p className="font-weight-normal">
