@@ -22,7 +22,7 @@ export default class DataTable extends Component {
         let headers = [];
         for (let key in keys) {
             let str = keys[key];
-            if (str !== "id")
+            if (str !== "id" && str !== "movies")
                 headers.push(<th>{str[0].toUpperCase() + str.slice(1)}</th>);
         }
         return headers;

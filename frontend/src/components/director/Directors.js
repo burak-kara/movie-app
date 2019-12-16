@@ -1,20 +1,16 @@
 import React, {Component} from 'react';
 import {deleteDirector, getAllDirectors} from "../../utils/DirectorUtils";
 import {checkAccessToken, checkStates} from "../../utils/APIUtils";
-import {ACCESS_TOKEN} from "../../utils/Constants";
 import FilterableTable from "../../commons/table/FilterableTable";
-import directors from "../../assets/test_data/directors.json";
+import {ACCESS_TOKEN} from "../../utils/Constants";
 import "./Directors.css";
+import directors from "../../assets/test_data/directors.json";
 
 export default class Directors extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: null,
-            isLoading: false,
-            isBadRequest: false,
-            isNotFound: false,
-            isServerError: false,
         }
     }
 
@@ -73,7 +69,10 @@ export default class Directors extends Component {
 
     handleInfoClick = (directorID) => {
         console.log("-----------director info------------" + directorID);
-        this.props.history.push("/directors/" + directorID);
+        this.props.history.push({
+            pathname: "/directors/" + directorID,
+            state: {id: directorID}
+        });
     };
 
     handleAddClick = () => {
