@@ -3,6 +3,7 @@ import {BrowserRouter, Link} from "react-router-dom";
 import {ACCESS_TOKEN} from "../../utils/Constants";
 import LoadingIndicator from "../loading/LoadingIndicator";
 import {checkAccessToken} from "../../utils/APIUtils";
+import "./Home.css"
 
 
 export default class Home extends Component {
@@ -56,7 +57,7 @@ export default class Home extends Component {
                         </Link>
                     </row>
                 </BrowserRouter>
-                <div className="col home-page">
+                <div className="home-page">
                     <h1 className="row justify-content-md-center">Movie App</h1>
                     <p className="row justify-content-md-center">
                         Developed for the CS 434 OOP course in Özyeğin University</p>
