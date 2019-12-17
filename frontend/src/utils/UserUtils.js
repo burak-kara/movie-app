@@ -3,16 +3,14 @@ import {request} from "./APIUtils";
 
 export function login(loginParams) {
     return request({
-        url: USER_URL + "/signin",
+        url: USER_URL + "/login",
         method: POST,
+        credentials: 'same-origin',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(loginParams)
-    });
-}
-
-export function getCurrentUser() {
-    return request({
-        url: USER_URL + "/me",
-        method: GET
     });
 }
 

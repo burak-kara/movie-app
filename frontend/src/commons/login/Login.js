@@ -22,12 +22,12 @@ export default class Login extends Component {
                     <div className="form-group login-form">
                         <label>Email address</label>
                         <input
-                            type="email" className="form-control" name="email"
-                            aria-describedby="emailHelp" placeholder="Enter email"
+                            className="form-control" name="email"
+                            placeholder="Enter username"
                             onChange={this.handleChange} required
                         />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group login-form">
                         <label>Password</label>
                         <input
                             type="password" className="form-control"
@@ -35,7 +35,7 @@ export default class Login extends Component {
                             onChange={this.handleChange} required
                         />
                     </div>
-                    <button type="submit" className="btn btn-success login-btn" onClick={this.handleSubmit}>
+                    <button type="button" className="btn btn-success login-btn" onClick={this.handleSubmit}>
                         Login
                     </button>
                 </form>
@@ -49,11 +49,33 @@ export default class Login extends Component {
     };
 
     handleSubmit = () => {
-        login(Object.assign({}, this.state.email, this.state.password))
-            .then(response => {
-                localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-            }).catch(error => {
-            this.setState({renderAlert: true, status: error.status})
+        const params = {
+            "username": this.state.email,
+            "password": this.state.password
+        };
+        login(params)
+            .then((response) => {
+                if (response.status !== 200) {
+                    this.setState({renderAlert: true, status: response.status})
+                } else {
+                    console.log("Login response: "); // TODO delete
+                    console.log(response);
+                    localStorage.setItem(ACCESS_TOKEN, response.user.accessToken);
+                    this.props.onLogin(response);
+                    this.props.history.push("/");
+                }
+            }).catch((error) => {
+            if (error.status === 502) {
+                this.props.history.push({
+                    pathname: "/error",
+                    state: {
+                        title: "500",
+                        info: "Oops! Something went wrong",
+                        buttonText: "Go Back",
+                        link: "/"
+                    }
+                });
+            }
         })
     };
 

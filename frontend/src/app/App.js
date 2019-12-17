@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import './App.css';
 import Login from "../commons/login/Login";
-import {getCurrentUser} from "../utils/UserUtils";
 
 import AppHeader from "../commons/header/AppHeader";
 import Home from "../commons/home/Home";
@@ -17,25 +16,16 @@ import Directors from "../components/director/Directors";
 import DirectorInfo from "../components/director/info/DirectorInfo";
 import AddDirector from "../components/director/operations/AddDirector";
 
-import users from "../assets/test_data/users.json";
+import WarningPage from "../commons/warning/WarningPage";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // TODO
-            // currentUser: localStorage.getItem("user"),
-            // isAuthenticated: localStorage.getItem("isAuth"),
-            // isLoading: false
-            currentUser: users.users[0],
-            isAuthenticated: true,
+            currentUser: localStorage.getItem("user"),
+            isAuthenticated: localStorage.getItem("isAuthenticated"),
             isLoading: false
         }
-    }
-
-    componentDidMount() {
-        // TODO uncomment
-        // this.loadCurrentUser();
     }
 
     render() {
@@ -108,6 +98,15 @@ class App extends Component {
                                 currentUser={this.state.currentUser}
                                 {...props}
                             />
+                        exact path="/please-login"
+                        render={(props) =>
+                            <WarningPage {...props}/>
+                        }
+                    />
+                    <Route
+                        exact path="/error"
+                        render={(props) =>
+                            <WarningPage {...props}/>
                         }
                     />
                     <Route
@@ -155,32 +154,19 @@ class App extends Component {
         );
     }
 
-    loadCurrentUser = () => {
-        this.setState({isLoading: true});
-
-        getCurrentUser()
-            .then(response => {
-                this.setState({
-                    currentUser: response,
-                    isAuthenticated: true,
-                    isLoading: false
-                });
-                localStorage.setItem("user", response);
-                localStorage.setItem("isAuthenticated", true);
-            }).catch(error => {
-            this.setState({isLoading: false})
-        });
-    };
-
     handleLogout = () => {
         localStorage.clear();
         this.setState({currentUser: null, isAuthenticated: false});
-        this.props.history.push("/");
     };
 
-    handleLogin = () => {
-        this.loadCurrentUser();
-        this.props.history.push("/");
+    handleLogin = (response) => {
+        this.setState({
+            currentUser: response.user,
+            isAuthenticated: true,
+            isLoading: false
+        });
+        localStorage.setItem("user", response.user);
+        localStorage.setItem("isAuthenticated", "true");
     };
 }
 

@@ -1,6 +1,31 @@
 import React, {Component} from "react";
 
 export default class DataRow extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: null
+        };
+    }
+
+    componentDidMount() {
+        this.setState({
+            data: this.props.data,
+        }, () => {
+            console.log("Data Row");
+            console.log(this.props.data);
+        })
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({
+            data: nextProps.data,
+        }, () => {
+            console.log("Data Row");
+            console.log(this.props.data);
+        })
+    }
+
     render() {
         return (
             <tr>
@@ -10,16 +35,19 @@ export default class DataRow extends Component {
         );
     }
 
+
     renderData = () => {
         let columns = [];
-        for (let key in this.props.data) {
+        for (let key in this.state.data) {
             if (key !== "id" && key !== "movies")
                 columns.push(
                     <td
                         onClick={this.handleInfoClick}
                         style={{"cursor": "pointer"}}
+                        aria-disabled={this.props.isInfo}
+                        key={key}
                     >
-                        {this.props.data[key]}
+                        {this.getData(this.state.data[key], key)}
                     </td>
                 )
         }
@@ -27,35 +55,46 @@ export default class DataRow extends Component {
     };
 
     handleInfoClick = () => {
-        this.props.infoHandler(this.props.data["id"]);
+        this.props.infoHandler(this.state.data["id"]);
+    };
+
+    getData = (obj, key) => {
+        if (key === "birthDate") {
+            return obj["day"] + "." + obj["month"] + "." + obj["year"];
+        } else {
+            return obj
+        }
     };
 
     renderButtons = () => {
         var buttonLeftText = this.props.isNotAdmin ? ("Watched"):("Update");
         var buttonRightText = this.props.isNotAdmin ? ("Favorite"):("Delete");
         return (
-            <td>
+            <td key={"buttons"}>
                 <div className="container">
-                    <div>
-                        <div className="row justify-content-around data-row">
-                            <div className="col">
-                                <button
-                                    type="button" className="btn btn-success"
-                                    disabled={this.props.isNotAdmin}
-                                    onClick={this.props.isNotAdmin?(this.handleWatchedClick):(this.handleUpdateClick)}
-                                >
-                                    {buttonLeftText}
-                                </button>
-                            </div>
-                            <div className="col">
-                                <button
-                                    type="button" className="btn btn-danger"
-                                    disabled={this.props.isNotAdmin}
-                                    onClick={this.props.isNotAdmin ? (this.handleFavoriteClick):(this.handleDeleteClick)}
-                                >
-                                {buttonRightText}
-                                </button>
-                            </div>
+                    <div className="row justify-content-around data-row">
+                        <div className="col">
+                            <button
+                                type="button" className="btn btn-success"
+                                disabled={
+                                    this.props.isMovieList ? false : this.props.isNotAdmin}
+                                onClick={this.leftButtonHandler}
+                            >
+                                {this.props.leftButtonText}
+                            </button>
+                        </div>
+                        <div className="col">
+                            <button
+                                type="button" className="btn btn-danger"
+                                disabled={
+                                    this.props.isMovieList ? false :
+                                        this.props.isInfo ? false :
+                                            this.props.isNotAdmin
+                                }
+                                onClick={this.rightButtonHandler}
+                            >
+                                {this.props.rightButtonText}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -63,12 +102,12 @@ export default class DataRow extends Component {
         );
     };
 
-    handleUpdateClick = () => {
-        this.props.updateHandler(this.props.data["id"]);
+    leftButtonHandler = () => {
+        this.props.leftButtonHandler(this.state.data["id"]);
     };
 
-    handleDeleteClick = () => {
-        this.props.deleteHandler(this.props.data["id"]);
+    rightButtonHandler = () => {
+        this.props.rightButtonHandler(this.state.data["id"]);
     };
 
     handleWatchedClick = (id) => {

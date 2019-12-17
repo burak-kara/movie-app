@@ -8,8 +8,6 @@ import "./Home.css"
 
 export default class Home extends Component {
     render() {
-        checkAccessToken(ACCESS_TOKEN);
-
         return (
             <div  className="home-image">
                     <div className="home-text">

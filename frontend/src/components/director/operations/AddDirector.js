@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import {ACCESS_TOKEN} from "../../../utils/Constants";
-import {checkAccessToken} from "../../../utils/APIUtils";
-import {WarningPage} from "../../../commons/warning/WarningPage";
-import {addDirector, getDirectorProfile} from "../../../utils/DirectorUtils";
-import directors from "../../../assets/test_data/directors";
+import {addDirector, getDirectorProfile, updateDirector} from "../../../utils/DirectorUtils";
 
 export default class AddDirector extends Component {
     constructor(props) {
         super(props);
         this.state = {
             director: null,
-            dateType: "text"
+            dateType: "text",
+            isUpdate: false,
+            isAuthorized: this.props.currentUser.role === "Admin"
         }
     }
 
@@ -20,17 +19,15 @@ export default class AddDirector extends Component {
             id = this.props.location.state.id;
         }
         if (id) {
-            console.log(id);
             this.loadDirector(id);
+            this.setState({isUpdate: true});
         }
-        this.setState({isAuthorized: this.props.currentUser.role === "Admin"})
     }
 
     render() {
-        checkAccessToken(ACCESS_TOKEN);
+        this.checkAccessToken();
         this.checkRole();
-        const values = this.assignValues();
-        console.log(values);
+        this.checkErrorStates();
         return (
             <div className="container border director-list-container">
                 <div className="row">
@@ -38,20 +35,20 @@ export default class AddDirector extends Component {
                         <label>Name</label>
                         <input
                             type="text" className="form-control"
-                            name="name" value={values.name}
+                            name="name" value={this.state.name}
                             placeholder="Enter director name"
                             onChange={this.handleChange}
                         />
                         <label>Surname</label>
                         <input
                             type="text" className="form-control"
-                            name="surname" value={values.surname}
+                            name="surname" value={this.state.surname}
                             placeholder="Enter director surname"
                             onChange={this.handleChange}
                         />
                         <label>Birthday</label>
                         <input type={this.state.dateType} className="form-control"
-                               name="birthday" value={values.birthday}
+                               name="birthDate" value={this.state.birthDate}
                                placeholder="Enter birthday"
                                onFocus={() => {
                                    this.setState({dateType: "date"})
@@ -82,26 +79,79 @@ export default class AddDirector extends Component {
         );
     }
 
-    checkRole = () => {
-        if (!this.props.currentUser) {
-            return (
-                <WarningPage
-                    title={"404"}
-                    info={"The page you are looking for was not found"}
-                    buttonText={"Home"}
-                    link={"/"}
-                />
-            );
-        } else if (!this.state.isAuthorized) {
-            return (
-                <WarningPage
-                    title={"401"}
-                    info={"UnAuthorized Please Login as Admin"}
-                    buttonText={"Home"}
-                    link={"/"}
-                />
-            );
+    checkAccessToken = () => {
+        if (!localStorage.getItem(ACCESS_TOKEN)) {
+            this.props.history.push({
+                pathname: "/please-login",
+                state: {
+                    title: "Welcome",
+                    info: "Please Login",
+                    buttonText: "Login",
+                    link: "/login"
+                }
+            });
         }
+    };
+
+    checkRole = () => {
+        if (!this.state.isAuthorized) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "401",
+                    info: "Unauthorized Please Login as Admin",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        }
+    };
+
+    checkErrorStates = () => {
+        if (this.state.isBadRequest) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "400",
+                    info: "Bad Request",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        } else if (this.state.isNotFound) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "404",
+                    info: "The page you are looking for was not found",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        } else if (this.state.isServerError) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "500",
+                    info: "Oops! Something went wrong",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        }
+    };
+
+    loadDirector = (id) => {
+        this.setState({isLoading: true});
+        getDirectorProfile(id).then(response => {
+            this.setState({
+                director: response,
+                name: response.name,
+                surname: response.surname,
+                birthDate: response.birthDate,
+                isLoading: false
+            });
+        }).catch(error => this.catchError(error.status));
     };
 
     catchError = (status) => {
@@ -123,57 +173,35 @@ export default class AddDirector extends Component {
         }
     };
 
-    assignValues = () => {
-        return {
-            "name": this.state.director ? this.state.name : "",
-            "surname": this.state.director ? this.state.surname : "",
-            "birthday": this.state.director ? this.state.birthday : ""
-        }
-    };
-
-    loadDirector = (id) => {
-        // this.setState({isLoading: true});
-        //
-        // getDirectorProfile(id).then(response => {
-        //     this.setState({
-        //         director: response,
-        //         name: response.name,
-        //         surname: response.surname,
-        //         birthday: response.birthday,
-        //         isLoading: false
-        //     });
-        // }).catch(error => this.catchError(error.status));
-        // TODO delete
-        const directorss = directors.directors;
-        for (let i = 0; i < directorss.length; i++) {
-            if (directorss[i].id === id) {
-                console.log(directorss[i]);
-                this.setState({
-                    director: directorss[i],
-                    name: directorss[i].name,
-                    surname: directorss[i].surname,
-                    birthday: directorss[i].birthday
-                });
-            }
-        }
-    };
-
     handleChange = (event) => {
+        console.log(event.target.value);
         this.setState({[event.target.name]: event.target.value});
-        console.log(event.target.value); // TODO delete debug
     };
 
     handleSaveClick = () => {
-        const params = {
-            "name": this.state.name,
-            "surname": this.state.surname,
-            "birthday": this.state.birthday
-        };
-        addDirector(params)
-            .then(response => {
-                console.log(response);
-                this.props.history.push("/directors");
-            })
+        if (this.state.name && this.state.surname && this.state.birthDate) {
+            const params = {
+                "name": this.state.name,
+                "surname": this.state.surname,
+                "birthDate": {
+                    "year": this.state.birthDate.split("-")[0],
+                    "month": this.state.birthDate.split("-")[1],
+                    "day": this.state.birthDate.split("-")[2]
+                }
+            };
+            console.log(this.state.isUpdate);
+            if (this.state.isUpdate) {
+                updateDirector(this.props.location.state.id, params)
+                    .then((response) => {
+                        this.props.history.push("/directors");
+                    })
+            } else {
+                addDirector(params)
+                    .then((response) => {
+                        this.props.history.push("/directors");
+                    })
+            }
+        }
     };
 
     handleBackClick = () => {

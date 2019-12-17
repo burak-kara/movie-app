@@ -30,10 +30,16 @@ export function addDirector(addParams) {
     });
 }
 
-export function updateDirector(updateParams, directorId) {
+// TODO delete update done by add
+export function updateDirector(directorId, updateParams) {
     return request({
         url: DIRECTOR_URL + "/" + directorId,
         method: PUT,
+        credentials: 'same-origin',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(updateParams)
     });
 }

@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {Button} from 'react-bootstrap';
-
+import "./WarningPage.css";
 /*
 * How to use
 * For UnAuthorized requests; title=401 info=UnAuthorized Please Login buttonText=Home link=/
@@ -11,23 +9,31 @@ import {Button} from 'react-bootstrap';
 * For Bad Request; title=400 info=Bad Request buttonText=Go Back link=/
 * */
 
-export class WarningPage extends Component {
+export default class WarningPage extends Component {
     render() {
-        // TODO contains
+        let state;
+        if (this.props.location.state) {
+            state = this.props.location.state;
+            console.log(state);
+        }
         return (
-            <div className="class-container">
-                <h1 className="title">
-                    {this.props.title}
-                </h1>
-                <div className="desc">
-                    {this.props.info}
+            <div className="container border warning-page-container">
+                <div className="row warning-title">
+                    {state.title}
                 </div>
-                {/*TODO link*/}
-                {/*<Link to="/">*/}
-                <Button variant="outline-success" size="lg">
-                    {this.props.buttonText}
-                </Button>
-                {/*</Link>*/}
+                <div className="row warning-info">
+                    {state.info}
+                </div>
+                <div className="row warning-button">
+                    <button
+                        className="btn btn-outline-success btn-lg"
+                        onClick={() => {
+                            this.props.history.push(state.link)
+                        }}
+                    >
+                        {state.buttonText}
+                    </button>
+                </div>
             </div>
         );
     }
