@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {deleteDirector, getDirectorMovies, getDirectorProfile} from "../../../utils/DirectorUtils";
+import {getDirectorProfile} from "../../../utils/DirectorUtils";
 import {ACCESS_TOKEN} from "../../../utils/Constants";
 import {FaUserAlt} from "react-icons/fa";
 import {IconContext} from "react-icons";
@@ -14,18 +14,21 @@ export default class DirectorInfo extends Component {
         this.state = {
             director: {},
             movies: {},
-            isNotAdmin: this.props.currentUser.role !== "Admin"
+            isNotAdmin: true
         }
     }
 
     componentDidMount() {
-        let id;
+        this.checkAccessToken();
         if (this.props.location.state) {
-            id = this.props.location.state.id;
+            let id = this.props.location.state.id;
+            if (id) {
+                this.loadDirector(id);
+            }
         }
-        if (id) {
-            this.loadDirector(id);
-        }
+        this.setState({
+            isNotAdmin: localStorage.getItem("userRole") !== "Admin"
+        });
     }
 
     render() {
@@ -106,7 +109,7 @@ export default class DirectorInfo extends Component {
                     title: "400",
                     info: "Bad Request",
                     buttonText: "Go Back",
-                    link: "/"
+                    link: "/directors"
                 }
             });
         } else if (this.state.isNotFound) {
@@ -116,7 +119,7 @@ export default class DirectorInfo extends Component {
                     title: "404",
                     info: "The page you are looking for was not found",
                     buttonText: "Go Back",
-                    link: "/"
+                    link: "/directors"
                 }
             });
         } else if (this.state.isServerError) {
@@ -126,7 +129,7 @@ export default class DirectorInfo extends Component {
                     title: "500",
                     info: "Oops! Something went wrong",
                     buttonText: "Go Back",
-                    link: "/"
+                    link: "/directors"
                 }
             });
         }
@@ -148,39 +151,12 @@ export default class DirectorInfo extends Component {
         })
     };
 
-    catchError = (status) => {
-        if (status === 404) {
-            this.setState({
-                isNotFound: true,
-                isLoading: false
-            })
-        } else if (status === 400) {
-            this.setState({
-                isBadRequest: true,
-                isLoading: false
-            })
-        } else if (status === 500) {
-            this.setState({
-                isServerError: true,
-                isLoading: false
-            })
-        }
-    };
-
     getLeftButtonText = () => {
-        if (this.props.currentUser.role === "Admin") {
-            return "Update";
-        } else {
-            return "Add Watched";
-        }
+        return this.state.isNotAdmin ? "Add Watched" : "Update";
     };
 
     getRightButtonText = () => {
-        if (this.props.currentUser.role === "Admin") {
-            return "Update";
-        } else {
-            return "Add Favorite";
-        }
+        return this.state.isNotAdmin ? "Add Favorite" : "Delete";
     };
 
     handleAddClick = () => {
@@ -189,11 +165,7 @@ export default class DirectorInfo extends Component {
     };
 
     handleLeftClick = (movieID) => {
-        if (this.props.currentUser.role === "Admin") {
-            this.handleUpdateClick(movieID);
-        } else {
-            this.handleAddWatchedClick(movieID);
-        }
+        this.state.isNotAdmin ? this.handleAddWatchedClick(movieID) : this.handleUpdateClick(movieID);
     };
 
     handleUpdateClick = (movieID) => {
@@ -209,15 +181,11 @@ export default class DirectorInfo extends Component {
         addMovieToList(this.props.currentUser.id, "listID", movieID)
             .then((result) => {
                 // this.loadDirectorMovies();
-            }).catch((error) => this.catchError(error.status));
+            })
     };
 
     handleRightClick = (movieID) => {
-        if (this.props.currentUser.role === "Admin") {
-            this.handleDeleteClick(movieID);
-        } else {
-            this.handleAddFavoriteClick(movieID);
-        }
+        this.state.isNotAdmin ? this.this.handleAddFavoriteClick(movieID) : this.handleDeleteClick(movieID);
     };
 
     handleDeleteClick = (movieID) => {
@@ -225,9 +193,9 @@ export default class DirectorInfo extends Component {
         deleteMovie(movieID)
             .then((result) => {
                 this.loadDirectors();
-            }).catch(error => this.catchError(error.status));
+            })
         this.setState({
-            unAuthorized: this.props.currentUser.role !== "Admin"
+            unAuthorized: this.state.isNotAdmin
         });
     };
 
@@ -236,7 +204,7 @@ export default class DirectorInfo extends Component {
         addMovieToList(this.props.currentUser.id, "listID", movieID)
             .then((result) => {
                 // this.loadDirectorMovies();
-            }).catch((error) => this.catchError(error.status));
+            })
     };
 
     handleInfoClick = (movieID) => {

@@ -28,6 +28,7 @@ class App extends Component {
                 <AppHeader
                     currentUser={this.state.currentUser}
                     isAuthenticated={this.state.isAuthenticated}
+                    userID={this.state.userID}
                     onLogout={this.handleLogout}
                 />
                 <Switch>
@@ -110,10 +111,12 @@ class App extends Component {
         this.setState({
             currentUser: response.user,
             isAuthenticated: true,
-            isLoading: false
+            isLoading: false,
+            userID: response.user.id
         });
-        localStorage.setItem("user", response.user);
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("userRole", response.user.role);
+        localStorage.setItem("userID", response.user.id);
     };
 }
 

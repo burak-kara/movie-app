@@ -11,12 +11,16 @@ export default class Directors extends Component {
         this.state = {
             data: null,
             isLoading: true,
-            isNotAdmin: this.props.currentUser.role !== "Admin"
+            isNotAdmin: true
         }
     }
 
     componentDidMount() {
+        this.checkAccessToken();
         this.loadDirectors();
+        this.setState({
+            isNotAdmin: localStorage.getItem("userRole") !== "Admin"
+        });
     }
 
     render() {
@@ -57,13 +61,14 @@ export default class Directors extends Component {
                     data: response,
                     isLoading: false
                 }, () => {
-                    console.log("inside get all directors" + this.state.data);
+                    console.log("inside get all directors"); // TODO delete
+                    console.log(this.state.data);
                 });
             }).catch(error => this.catchError(error.status))
     };
 
     catchError = (status) => {
-        console.log("asd" + status);
+        console.log("catch error status " + status);
         if (status === 404) {
             this.setState({
                 isNotFound: true,
@@ -149,11 +154,10 @@ export default class Directors extends Component {
     handleDeleteClick = (directorID) => {
         console.log("-----------director delete------------");
         deleteDirector(directorID)
-            .then(response => {
+            .then((response) => {
                 console.log("Deleted done in directors");
                 this.loadDirectors();
-            })
-            .catch((error) => this.catchError(error.status));
+            }).catch((error) => this.catchError(error.status));
     };
 
     handleInfoClick = (directorID) => {
