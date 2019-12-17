@@ -3,6 +3,7 @@ import {ACCESS_TOKEN} from "../../utils/Constants";
 import FilterableTable from "../../commons/table/FilterableTable";
 import {deleteUser, getAllUsers} from "../../utils/UserUtils";
 import UserInfo from './info/UserInfo';
+import users from '../../assets/test_data/users.json'
 
 export default class Users extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class Users extends Component {
     }
 
     componentDidMount() {
-        this.loadMovies();
+        this.loadUsers();
     }
 
     render() {

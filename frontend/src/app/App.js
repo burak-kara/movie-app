@@ -53,6 +53,16 @@ class App extends Component {
                         }
                     />
                     <Route
+                        exact path="/users"
+                        render={(props) =>
+                            <Users
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
                         exact path="/users/:id"
                         render={(props) =>
                             <UserInfo
