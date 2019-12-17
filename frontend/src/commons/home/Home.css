@@ -1,3 +1,18 @@
-.home-page {
-    margin-top: 150px;
+.home-image{
+    width: 1920px;
+    height: 850px;
+    background-image: url("../../assets/images/background.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.home-text {
+    text-align: center;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
 }
