@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import {deleteDirector, getAllDirectors} from "../../utils/DirectorUtils";
-import {checkAccessToken, checkStates} from "../../utils/APIUtils";
 import FilterableTable from "../../commons/table/FilterableTable";
 import {ACCESS_TOKEN} from "../../utils/Constants";
 import "./Directors.css";
-import directors from "../../assets/test_data/directors.json";
+import LoadingIndicator from "../../commons/loading/LoadingIndicator";
 
 export default class Directors extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: null,
+            isLoading: true,
+            isNotAdmin: this.props.currentUser.role !== "Admin"
         }
     }
 
@@ -19,20 +20,27 @@ export default class Directors extends Component {
     }
 
     render() {
-        checkAccessToken(ACCESS_TOKEN);
-        checkStates(this.state);
+        this.checkAccessToken();
+        if (this.state.isLoading) {
+            return (<LoadingIndicator/>);
+        }
+        this.checkErrorStates();
         return (
             <div className="container border director-list-container">
                 <div className="row">
-                    {/* TODO change directors.directors*/}
                     <FilterableTable
-                        data={directors.directors}
-                        buttonText={"Add Director"}
+                        data={this.state.data}
+                        addButtonText={"Add Director"}
+                        leftButtonText={"Update"}
+                        rightButtonText={"Delete"}
+                        isNotAdmin={this.state.isNotAdmin}
+                        isInfo={false}
+                        isMovieList={false}
                         addHandler={this.handleAddClick}
-                        deleteHandler={this.handleDeleteClick}
-                        updateHandler={this.handleUpdateClick}
+                        leftButtonHandler={this.handleUpdateClick}
+                        rightButtonHandler={this.handleDeleteClick}
                         infoHandler={this.handleInfoClick}
-                        userRole={this.props.currentUser.role}
+                        {...this.props}
                     />
                 </div>
             </div>
@@ -40,15 +48,22 @@ export default class Directors extends Component {
     }
 
     loadDirectors = () => {
+        this.setState({
+            isLoading: true
+        });
         getAllDirectors()
             .then(response => {
                 this.setState({
-                    data: response
-                })
+                    data: response,
+                    isLoading: false
+                }, () => {
+                    console.log("inside get all directors" + this.state.data);
+                });
             }).catch(error => this.catchError(error.status))
     };
 
     catchError = (status) => {
+        console.log("asd" + status);
         if (status === 404) {
             this.setState({
                 isNotFound: true,
@@ -59,7 +74,7 @@ export default class Directors extends Component {
                 isBadRequest: true,
                 isLoading: false
             })
-        } else {
+        } else if (status === 500) {
             this.setState({
                 isServerError: true,
                 isLoading: false
@@ -67,17 +82,60 @@ export default class Directors extends Component {
         }
     };
 
-    handleInfoClick = (directorID) => {
-        console.log("-----------director info------------" + directorID);
-        this.props.history.push({
-            pathname: "/directors/" + directorID,
-            state: {id: directorID}
-        });
+    checkAccessToken = () => {
+        if (!localStorage.getItem(ACCESS_TOKEN)) {
+            this.props.history.push({
+                pathname: "/please-login",
+                state: {
+                    title: "Welcome",
+                    info: "Please Login",
+                    buttonText: "Login",
+                    link: "/login"
+                }
+            });
+        }
+    };
+
+    checkErrorStates = () => {
+        if (this.state.isBadRequest) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "400",
+                    info: "Bad Request",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        } else if (this.state.isNotFound) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "404",
+                    info: "The page you are looking for was not found",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        } else if (this.state.isServerError) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "500",
+                    info: "Oops! Something went wrong",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        }
     };
 
     handleAddClick = () => {
         console.log("-----------director add------------");
-        this.props.history.push("/directors/add");
+        this.props.history.push({
+            pathname: "/directors/add",
+            state: {}
+        });
     };
 
     handleUpdateClick = (directorID) => {
@@ -91,11 +149,18 @@ export default class Directors extends Component {
     handleDeleteClick = (directorID) => {
         console.log("-----------director delete------------");
         deleteDirector(directorID)
-            .then((result) => {
+            .then(response => {
+                console.log("Deleted done in directors");
                 this.loadDirectors();
-            }).catch(error => this.catchError(error.status));
-        this.setState({
-            unAuthorized: this.props.currentUser.role !== "Admin"
+            })
+            .catch((error) => this.catchError(error.status));
+    };
+
+    handleInfoClick = (directorID) => {
+        console.log("-----------director info------------" + directorID);
+        this.props.history.push({
+            pathname: "/directors/" + directorID,
+            state: {id: directorID}
         });
     };
 }

@@ -7,8 +7,6 @@ import {checkAccessToken} from "../../utils/APIUtils";
 
 export default class Home extends Component {
     render() {
-        checkAccessToken(ACCESS_TOKEN);
-
         return (
             <BrowserRouter>
                 <row>
@@ -32,7 +30,6 @@ export default class Home extends Component {
                     </Link>
                 </row>
                 <row>
-
                     {this.props.currentUser ? this.props.currentUser.role === "Admin" ?
                         <div>
                             <Link to={`/userAdd`}>

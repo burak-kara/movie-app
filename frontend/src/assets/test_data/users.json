@@ -5,7 +5,6 @@
       "name": "Burak",
       "surname": "Kara",
       "birthday": "26.05.2019",
-      "place": "Mugla",
       "role": "Admin"
     },
     {
@@ -13,7 +12,6 @@
       "name": "Burak",
       "surname": "Kara",
       "birthday": "26.05.2019",
-      "place": "Mugla",
       "role": "user"
     },
     {
@@ -21,7 +19,6 @@
       "name": "Burak",
       "surname": "Kara",
       "birthday": "26.05.2019",
-      "place": "Mugla",
       "role": "user"
     }
   ]
