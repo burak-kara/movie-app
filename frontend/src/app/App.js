@@ -34,16 +34,11 @@ class App extends Component {
                 <Switch>
                     <Route
                         exact path="/"
-                        component={Home}
+                        render={(props) => <Home {...props}/>}
                     />
                     <Route
                         exact path="/login"
-                        render={(props) =>
-                            <Login
-                                onLogin={this.handleLogin}
-                                {...props}
-                            />
-                        }
+                        render={(props) => <Login onLogin={this.handleLogin} {...props}/>}
                     />
                     <Route
                         exact path="/please-login"

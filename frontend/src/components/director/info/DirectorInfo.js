@@ -13,13 +13,14 @@ export default class DirectorInfo extends Component {
         super(props);
         this.state = {
             director: {},
-            movies: {},
+            movies: null,
             isNotAdmin: true
         }
     }
 
     componentDidMount() {
         this.checkAccessToken();
+        this.checkErrorStates();
         if (this.props.location.state) {
             let id = this.props.location.state.id;
             if (id) {
@@ -29,6 +30,21 @@ export default class DirectorInfo extends Component {
         this.setState({
             isNotAdmin: localStorage.getItem("userRole") !== "Admin"
         });
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.location.state) {
+            let id = nextProps.location.state.id;
+            if (id) {
+                this.loadDirector(id);
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps !== this.props) {
+            this.loadDirector(this.props.location.state.id)
+        }
     }
 
     render() {
@@ -68,20 +84,20 @@ export default class DirectorInfo extends Component {
                     </div>
                 </div>
                 <div className="row movies-row">
-                    {/*<FilterableTable*/}
-                    {/*    data={this.state.movies}*/}
-                    {/*    addButtonText={"Add Movie"}*/}
-                    {/*    leftButtonText={this.getLeftButtonText}*/}
-                    {/*    rightButtonText={this.getRightButtonText}*/}
-                    {/*    isNotAdmin={this.state.isNotAdmin}*/}
-                    {/*    isInfo={true}*/}
-                    {/*    isMovieList={false}*/}
-                    {/*    addHandler={this.handleAddClick}*/}
-                    {/*    leftButtonHandler={this.handleLeftClick}*/}
-                    {/*    rightButtonHandler={this.handleRightClick}*/}
-                    {/*    infoHandler={this.handleInfoClick}*/}
-                    {/*    {...this.props}*/}
-                    {/*/>*/}
+                    <FilterableTable
+                        data={this.state.movies}
+                        addButtonText={"Add Movie"}
+                        leftButtonText={this.getLeftButtonText}
+                        rightButtonText={this.getRightButtonText}
+                        isNotAdmin={this.state.isNotAdmin}
+                        isInfo={true}
+                        isMovieList={true}
+                        addHandler={this.handleAddClick}
+                        leftButtonHandler={this.handleLeftClick}
+                        rightButtonHandler={this.handleRightClick}
+                        infoHandler={this.handleInfoClick}
+                        {...this.props}
+                    />
                 </div>
             </div>
         );

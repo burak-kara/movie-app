@@ -7,7 +7,7 @@ export default class FilterableTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null,
+            data: {},
             filterText: '',
         };
     }
@@ -16,7 +16,7 @@ export default class FilterableTable extends Component {
         this.setState({
             data: this.props.data,
         }, () => {
-            console.log("Filterable Table");
+            console.log("Filterable Table componentDidMount");
             console.log(this.props.data);
         })
     }
@@ -25,7 +25,7 @@ export default class FilterableTable extends Component {
         this.setState({
             data: nextProps.data,
         }, () => {
-            console.log("Filterable Table");
+            console.log("Filterable Table componentWillReceiveProps");
             console.log(this.props.data);
         })
     }

@@ -12,7 +12,7 @@ export default class DataRow extends Component {
         this.setState({
             data: this.props.data,
         }, () => {
-            console.log("Data Row");
+            console.log("Data Row componentDidMount");
             console.log(this.props.data);
         })
     }
@@ -21,7 +21,7 @@ export default class DataRow extends Component {
         this.setState({
             data: nextProps.data,
         }, () => {
-            console.log("Data Row");
+            console.log("Data Row componentWillReceiveProps");
             console.log(this.props.data);
         })
     }
@@ -61,6 +61,9 @@ export default class DataRow extends Component {
     getData = (obj, key) => {
         if (key === "birthDate") {
             return obj["day"] + "." + obj["month"] + "." + obj["year"];
+        }
+        if (key === "director") {
+            return obj["name"] + " " + obj["surname"];
         } else {
             return obj
         }
