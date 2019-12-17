@@ -1,0 +1,47 @@
+{
+  "id": 1000,
+  "name": "Test",
+  "surname": "User",
+  "role": "Admin",
+  "lists": [
+            {
+                "name": "Favorites",
+                "movies": [
+                    {
+                        "title": "The Lord of the Rings: The Return of the King",
+                        "releaseYear": 2003,
+                        "duration": 201,
+                        "director": {
+                            "name": "Peter",
+                            "surname": "Jackson",
+                            "birthDate": {
+                                "day": 31,
+                                "month": 12,
+                                "year": 1961
+                            },
+                            "movies": [],
+                            "id": "IcHmlTBNhmSOjlkcZkqr"
+                        },
+                        "id": "1XiQijVTKtaxMFjFUP0J"
+                    },
+                    {
+                        "title": "The Fight Club",
+                        "releaseYear": 1999,
+                        "duration": 139,
+                        "director": {
+                            "name": "David",
+                            "surname": "Fincher",
+                            "birthDate": {
+                                "day": 28,
+                                "month": 12,
+                                "year": 1962
+                            },
+                            "movies": [],
+                            "id": "2L9GqeUjUwjSvoCje80l"
+                        },
+                        "id": "WFCw7Ind9Rnu6dCmbyeF"
+                    }
+                ]
+            }
+        ]
+}

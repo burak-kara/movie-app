@@ -7,6 +7,8 @@ import {getCurrentUser} from "../utils/UserUtils";
 import AppHeader from "../commons/header/AppHeader";
 import Home from "../commons/home/Home";
 
+import Users from "../components/user/Users";
+
 import Movies from "../components/movie/Movies";
 import MovieInfo from "../components/movie/info/MovieInfo";
 import AddMovie from "../components/movie/operations/AddMovie";
@@ -54,6 +56,16 @@ class App extends Component {
                         render={(props) =>
                             <Login
                                 onLogin={this.handleLogin}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/users"
+                        render={(props) =>
+                            <Users
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
                                 {...props}
                             />
                         }

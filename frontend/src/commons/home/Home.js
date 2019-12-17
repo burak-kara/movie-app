@@ -4,7 +4,6 @@ import {ACCESS_TOKEN} from "../../utils/Constants";
 import LoadingIndicator from "../loading/LoadingIndicator";
 import {checkAccessToken} from "../../utils/APIUtils";
 import "./Home.css"
-import Background from '../../assets/images/background.png'
 
 
 export default class Home extends Component {
