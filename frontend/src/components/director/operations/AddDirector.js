@@ -160,7 +160,7 @@ export default class AddDirector extends Component {
                 director: response,
                 name: response.name,
                 surname: response.surname,
-                birthDate: response.birthDate,
+                birthDate: response.birthDate["day"] + "." + response.birthDate["month"] + "." + response.birthDate["year"],
                 isLoading: false
             });
         }).catch(error => this.catchError(error.status));
@@ -195,15 +195,16 @@ export default class AddDirector extends Component {
             const params = {
                 "name": this.state.name,
                 "surname": this.state.surname,
-                "birthDate": {
-                    "year": this.state.birthDate.split("-")[0],
-                    "month": this.state.birthDate.split("-")[1],
-                    "day": this.state.birthDate.split("-")[2]
-                }
+                "birthDate": JSON.stringify({
+                    "day": this.state.birthDate.split(".")[0],
+                    "month": this.state.birthDate.split(".")[1],
+                    "year": this.state.birthDate.split(".")[2]
+                })
             };
             console.log("add director page for update");
             console.log(this.state.isUpdate);
             if (this.state.isUpdate) {
+                console.log(params);
                 updateDirector(this.props.location.state.id, params)
                     .then((response) => {
                         this.props.history.push("/directors");

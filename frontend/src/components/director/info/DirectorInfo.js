@@ -87,8 +87,8 @@ export default class DirectorInfo extends Component {
                     <FilterableTable
                         data={this.state.movies}
                         addButtonText={"Add Movie"}
-                        leftButtonText={this.getLeftButtonText}
-                        rightButtonText={this.getRightButtonText}
+                        leftButtonText={this.getLeftButtonText()}
+                        rightButtonText={this.getRightButtonText()}
                         isNotAdmin={this.state.isNotAdmin}
                         isInfo={true}
                         isMovieList={true}
@@ -168,11 +168,11 @@ export default class DirectorInfo extends Component {
     };
 
     getLeftButtonText = () => {
-        return this.state.isNotAdmin ? "Add Watched" : "Update";
+        return this.state.isNotAdmin ? "Watched" : "Update";
     };
 
     getRightButtonText = () => {
-        return this.state.isNotAdmin ? "Add Favorite" : "Delete";
+        return this.state.isNotAdmin ? "Favorite" : "Delete";
     };
 
     handleAddClick = () => {

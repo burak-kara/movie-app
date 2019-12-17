@@ -44,7 +44,6 @@ export default class DataRow extends Component {
                     <td
                         onClick={this.handleInfoClick}
                         style={{"cursor": "pointer"}}
-                        aria-disabled={this.props.isInfo}
                         key={key}
                     >
                         {this.getData(this.state.data[key], key)}
@@ -78,7 +77,8 @@ export default class DataRow extends Component {
                             <button
                                 type="button" className="btn btn-success"
                                 disabled={
-                                    this.props.isMovieList ? false : this.props.isNotAdmin}
+                                    this.props.isMovieList ? false : this.props.isNotAdmin
+                                }
                                 onClick={this.leftButtonHandler}
                             >
                                 {this.props.leftButtonText}
@@ -88,9 +88,7 @@ export default class DataRow extends Component {
                             <button
                                 type="button" className="btn btn-danger"
                                 disabled={
-                                    this.props.isMovieList ? false :
-                                        this.props.isInfo ? false :
-                                            this.props.isNotAdmin
+                                    this.props.isMovieList ? false : this.props.isNotAdmin
                                 }
                                 onClick={this.rightButtonHandler}
                             >
