@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {ACCESS_TOKEN} from "../../../utils/Constants";
-import {checkAccessToken} from "../../../utils/APIUtils";
-import {WarningPage} from "../../../commons/warning/WarningPage";
 import {addMovie, getMovieProfile} from "../../../utils/MovieUtils";
 import movies from "../../../assets/test_data/movies";
 
@@ -27,7 +25,8 @@ export default class AddMovie extends Component {
     }
 
     render() {
-        checkAccessToken(ACCESS_TOKEN);
+        this.checkAccessToken();
+        this.checkErrorStates();
         this.checkRole();
         const values = this.assignValues();
         console.log(values);
@@ -90,25 +89,7 @@ export default class AddMovie extends Component {
     }
 
     checkRole = () => {
-        if (!this.props.currentUser) {
-            return (
-                <WarningPage
-                    title={"404"}
-                    info={"The page you are looking for was not found"}
-                    buttonText={"Home"}
-                    link={"/"}
-                />
-            );
-        } else if (!this.state.isAuthorized) {
-            return (
-                <WarningPage
-                    title={"401"}
-                    info={"UnAuthorized Please Login as Admin"}
-                    buttonText={"Home"}
-                    link={"/"}
-                />
-            );
-        }
+        
     };
 
     catchError = (status) => {

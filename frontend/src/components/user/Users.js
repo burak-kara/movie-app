@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {deleteMovie, getAllMovies} from "../../utils/MovieUtils";
-import {checkAccessToken, checkStates} from "../../utils/APIUtils";
 import {ACCESS_TOKEN} from "../../utils/Constants";
 import FilterableTable from "../../commons/table/FilterableTable";
 import movies from "../../assets/test_data/movies.json";
@@ -23,8 +22,6 @@ export default class Users extends Component {
     }
 
     render() {
-        checkAccessToken(ACCESS_TOKEN);
-        checkStates(this.state);
         return (
             <div>
                   <UserInfo 

@@ -7,6 +7,7 @@ import AppHeader from "../commons/header/AppHeader";
 import Home from "../commons/home/Home";
 
 import Users from "../components/user/Users";
+import UserInfo from "../components/user/info/UserInfo"
 
 import Movies from "../components/movie/Movies";
 import MovieInfo from "../components/movie/info/MovieInfo";
@@ -34,6 +35,7 @@ class App extends Component {
                 <AppHeader
                     currentUser={this.state.currentUser}
                     isAuthenticated={this.state.isAuthenticated}
+                    userID={this.state.userID}
                     onLogout={this.handleLogout}
                 />
                 <Switch>
@@ -51,9 +53,9 @@ class App extends Component {
                         }
                     />
                     <Route
-                        exact path="/users"
+                        exact path="/users/:id"
                         render={(props) =>
-                            <Users
+                            <UserInfo
                                 isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser}
                                 {...props}
@@ -98,6 +100,9 @@ class App extends Component {
                                 currentUser={this.state.currentUser}
                                 {...props}
                             />
+                        }
+                    />
+                    <Route
                         exact path="/please-login"
                         render={(props) =>
                             <WarningPage {...props}/>

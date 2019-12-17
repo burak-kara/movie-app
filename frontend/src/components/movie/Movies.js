@@ -1,20 +1,17 @@
 import React, {Component} from 'react';
 import {deleteMovie, getAllMovies} from "../../utils/MovieUtils";
-import {checkAccessToken, checkStates} from "../../utils/APIUtils";
-import {ACCESS_TOKEN} from "../../utils/Constants";
 import FilterableTable from "../../commons/table/FilterableTable";
-import movies from "../../assets/test_data/movies.json";
+import {ACCESS_TOKEN} from "../../utils/Constants";
 import "./Movies.css";
+import LoadingIndicator from "../../commons/loading/LoadingIndicator";
 
 export default class Movies extends Component {
     constructor(props) {
         super(props);
         this.state = {
             data: null,
-            isLoading: false,
-            isBadRequest: false,
-            isNotFound: false,
-            isServerError: false,
+            isLoading: true,
+            isNotAdmin: this.props.currentUser.role !== "Admin"
         }
     }
 
@@ -23,38 +20,50 @@ export default class Movies extends Component {
     }
 
     render() {
-        checkAccessToken(ACCESS_TOKEN);
-        checkStates(this.state);
+        this.checkAccessToken();
+        if (this.state.isLoading) {
+            return (<LoadingIndicator/>);
+        }
+        this.checkErrorStates();
         return (
             <div className="container border movie-list-container">
                 <div className="row">
-                    {/* TODO change movies.movies*/}
                     <FilterableTable
-                        data={movies.movies}
-                        buttonText={"Add Movie"}
+                        data={this.state.data}
+                        addButtonText={"Add Movies"}
+                        leftButtonText={"Update"}
+                        rightButtonText={"Delete"}
+                        isNotAdmin={this.state.isNotAdmin}
+                        isInfo={false}
+                        isMovieList={true}
                         addHandler={this.handleAddClick}
-                        deleteHandler={this.handleDeleteClick}
-                        updateHandler={this.handleUpdateClick}
-                        watchedHandler={this.handleWatchedClick}
-                        favoriteHandler={this.handleFavoriteClick}
+                        leftButtonHandler={this.handleUpdateClick}
+                        rightButtonHandler={this.handleDeleteClick}
                         infoHandler={this.handleInfoClick}
-                        userRole={this.props.currentUser.role}
+                        {...this.props}
                     />
                 </div>
             </div>
         );
     }
-
+    
     loadMovies = () => {
+        this.setState({
+            isLoading: true
+        });
         getAllMovies()
             .then(response => {
                 this.setState({
-                    data: response
-                })
+                    data: response,
+                    isLoading: false
+                }, () => {
+                    console.log("inside get all movies" + this.state.data);
+                });
             }).catch(error => this.catchError(error.status))
     };
 
     catchError = (status) => {
+        console.log("asd" + status);
         if (status === 404) {
             this.setState({
                 isNotFound: true,
@@ -65,7 +74,7 @@ export default class Movies extends Component {
                 isBadRequest: true,
                 isLoading: false
             })
-        } else {
+        } else if (status === 500) {
             this.setState({
                 isServerError: true,
                 isLoading: false
@@ -73,14 +82,60 @@ export default class Movies extends Component {
         }
     };
 
-    handleInfoClick = (movieID) => {
-        console.log("-----------movie info------------" + movieID);
-        this.props.history.push("/movies/" + movieID);
+    checkAccessToken = () => {
+        if (!localStorage.getItem(ACCESS_TOKEN)) {
+            this.props.history.push({
+                pathname: "/please-login",
+                state: {
+                    title: "Welcome",
+                    info: "Please Login",
+                    buttonText: "Login",
+                    link: "/login"
+                }
+            });
+        }
+    };
+
+    checkErrorStates = () => {
+        if (this.state.isBadRequest) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "400",
+                    info: "Bad Request",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        } else if (this.state.isNotFound) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "404",
+                    info: "The page you are looking for was not found",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        } else if (this.state.isServerError) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "500",
+                    info: "Oops! Something went wrong",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        }
     };
 
     handleAddClick = () => {
         console.log("-----------movie add------------");
-        this.props.history.push("/movies/add");
+        this.props.history.push({
+            pathname: "/movies/add",
+            state: {}
+        });
     };
 
     handleUpdateClick = (movieID) => {
@@ -94,21 +149,18 @@ export default class Movies extends Component {
     handleDeleteClick = (movieID) => {
         console.log("-----------movie delete------------");
         deleteMovie(movieID)
-            .then((result) => {
+            .then(response => {
+                console.log("Deleted done in movies");
                 this.loadMovies();
-            }).catch(error => this.catchError(error.status));
-        this.setState({
-            unAuthorized: this.props.currentUser.role !== "Admin"
+            })
+            .catch((error) => this.catchError(error.status));
+    };
+
+    handleInfoClick = (movieID) => {
+        console.log("-----------movie info------------" + movieID);
+        this.props.history.push({
+            pathname: "/movies/" + movieID,
+            state: {id: movieID}
         });
-    };
-
-    handleWatchedClick = (userID, listID, movieID) => {
-        console.log("-----------add movie to watched list------------");
-        this.props.history.push("/"+userID+"/lists/"+listID);// TODO
-    };
-
-    handleFavoriteClick = (userID, listID, movieID) => {
-        console.log("-----------add movie to favorite list------------");
-        this.props.history.push("/"+userID+"/lists/"+listID);// TODO
     };
 }

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {checkAccessToken, checkStates} from "../../../utils/APIUtils";
 import {getMovieProfile} from "../../../utils/MovieUtils";
 import {ACCESS_TOKEN} from "../../../utils/Constants";
 import './MovieInfo.css';
@@ -22,8 +21,8 @@ export default class MovieInfo extends Component {
     }
 
     render() {
-        checkAccessToken(ACCESS_TOKEN);
-        checkStates(this.state);
+        this.checkAccessToken();
+        this.checkErrorStates();
         // TODO contains
         return (
             <div className="container border movie-info-container">
