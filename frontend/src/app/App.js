@@ -11,6 +11,8 @@ import DirectorInfo from "../components/director/info/DirectorInfo";
 import AddDirector from "../components/director/add/AddDirector";
 
 import WarningPage from "../commons/warning/WarningPage";
+import Movies from "../components/movie/Movies";
+import MovieInfo from "../components/movie/info/MovieInfo";
 
 class App extends Component {
     constructor(props) {
@@ -42,14 +44,50 @@ class App extends Component {
                     />
                     <Route
                         exact path="/please-login"
-                        render={(props) =>
-                            <WarningPage {...props}/>
-                        }
+                        render={(props) => <WarningPage {...props}/>}
                     />
                     <Route
                         exact path="/error"
+                        render={(props) => <WarningPage {...props}/>}
+                    />
+                    <Route
+                        exact path="/movies"
                         render={(props) =>
-                            <WarningPage {...props}/>
+                            <Movies
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/add"
+                        render={(props) =>
+                            <AddDirector
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/update/:id"
+                        render={(props) =>
+                            <AddDirector
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/:id"
+                        render={(props) =>
+                            <MovieInfo
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
                         }
                     />
                     <Route
