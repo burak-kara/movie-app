@@ -195,11 +195,11 @@ export default class AddDirector extends Component {
             const params = {
                 "name": this.state.name,
                 "surname": this.state.surname,
-                "birthDate": JSON.stringify({
-                    "day": this.state.birthDate.split(".")[0],
-                    "month": this.state.birthDate.split(".")[1],
-                    "year": this.state.birthDate.split(".")[2]
-                })
+                "birthDate":{
+                    "day": parseInt(this.state.birthDate.split(".")[0]),
+                    "month": parseInt(this.state.birthDate.split(".")[1]),
+                    "year": parseInt(this.state.birthDate.split(".")[2])
+                }
             };
             console.log("add director page for update");
             console.log(this.state.isUpdate);

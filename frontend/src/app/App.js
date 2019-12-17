@@ -8,7 +8,7 @@ import Home from "../commons/home/Home";
 
 import Directors from "../components/director/Directors";
 import DirectorInfo from "../components/director/info/DirectorInfo";
-import AddDirector from "../components/director/operations/AddDirector";
+import AddDirector from "../components/director/add/AddDirector";
 
 import WarningPage from "../commons/warning/WarningPage";
 
