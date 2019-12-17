@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {deleteMovie, getAllMovies} from "../../utils/MovieUtils";
 import {ACCESS_TOKEN} from "../../utils/Constants";
 import FilterableTable from "../../commons/table/FilterableTable";
-import movies from "../../assets/test_data/movies.json";
+import {deleteUser, getAllUsers} from "../../utils/UserUtils";
 import UserInfo from './info/UserInfo';
 
 export default class Users extends Component {
@@ -22,16 +21,16 @@ export default class Users extends Component {
     }
 
     render() {
+        // TODO
         return (
             <div>
-                  <UserInfo 
-                    />
+                {/* FILTER TABLE */}
             </div>
         );
     }
 
-    loadMovies = () => {
-        getAllMovies()
+    loadUsers = () => {
+        getAllUsers()
             .then(response => {
                 this.setState({
                     data: response
@@ -58,42 +57,22 @@ export default class Users extends Component {
         }
     };
 
-    handleInfoClick = (movieID) => {
-        console.log("-----------movie info------------" + movieID);
-        this.props.history.push("/movies/" + movieID);
-    };
-
-    handleAddClick = () => {
-        console.log("-----------movie add------------");
-        this.props.history.push("/movies/add");
-    };
-
-    handleUpdateClick = (movieID) => {
-        console.log("-----------movie update------------");
+    handleUpdateClick = (userID) => {
+        console.log("-----------user update------------");
         this.props.history.push({
-            pathname: "/movies/update/" + movieID,
-            state: {id: movieID}
+            pathname: "/users/update/" + userID,
+            state: {id: userID}
         });
     };
 
-    handleDeleteClick = (movieID) => {
-        console.log("-----------movie delete------------");
-        deleteMovie(movieID)
+    handleDeleteClick = (userID) => {
+        console.log("-----------user delete------------");
+        deleteUser(userID)
             .then((result) => {
-                this.loadMovies();
+                this.loadUsers();
             }).catch(error => this.catchError(error.status));
         this.setState({
             unAuthorized: this.props.currentUser.role !== "Admin"
         });
-    };
-
-    handleWatchedClick = (userID, listID, movieID) => {
-        console.log("-----------add movie to watched list------------");
-        this.props.history.push("/"+userID+"/lists/"+listID);// TODO
-    };
-
-    handleFavoriteClick = (userID, listID, movieID) => {
-        console.log("-----------add movie to favorite list------------");
-        this.props.history.push("/"+userID+"/lists/"+listID);// TODO
     };
 }

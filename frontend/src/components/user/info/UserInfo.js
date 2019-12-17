@@ -8,7 +8,6 @@ import './UserInfo.css'
 
 export default class UserInfo extends Component {
     constructor(props) {
-        console.log("GELDİM AMCIK")
         super(props);
         this.state = {
             user: {},
@@ -21,7 +20,7 @@ export default class UserInfo extends Component {
         if (this.props.location.state) {
             let id = this.props.location.state.id;
             if (id) {
-                console.log("çağırdım oç")
+                console.log("called here")
                 this.loadUser(id);
             }
         }
