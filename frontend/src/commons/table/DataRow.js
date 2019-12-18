@@ -69,8 +69,6 @@ export default class DataRow extends Component {
     };
 
     renderButtons = () => {
-        var buttonLeftText = this.props.isNotAdmin ? ("Watched"):("Update");
-        var buttonRightText = this.props.isNotAdmin ? ("Favorite"):("Delete");
         return (
             <td key={"buttons"}>
                 <div className="container">
@@ -111,11 +109,11 @@ export default class DataRow extends Component {
         this.props.rightButtonHandler(this.state.data["id"]);
     };
 
-    handleWatchedClick = (id) => {
-        this.props.watchedHandler(this.props.data["id"]);
+    handleWatchedClick = () => {
+        this.props.watchedHandler(this.state.data["id"]);
     };
 
     handleFavoriteClick = () => {
-        this.props.favoriteHandler(this.props.data["id"]);
+        this.props.favoriteHandler(this.state.data["id"]);
     };
 }

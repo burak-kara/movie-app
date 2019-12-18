@@ -67,7 +67,7 @@ export function getAllUserLists(userId) {
 
 export function getMoviesFromUserList(userId, listId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId,
+        url: USER_URL + "/" + userId + "/" + listId,
         method: GET
     });
 }
@@ -75,16 +75,15 @@ export function getMoviesFromUserList(userId, listId) {
 // TODO how to add movie to the list
 export function addMovieToList(userId, listId, movieId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId,
-        method: POST,
-        body: JSON.stringify(movieId) // TODO possible mistake
+        url: USER_URL + "/" + userId + "/" + listId + "/" + movieId,
+        method: GET
     });
 }
 
 // TODO how to delete movie from the list
 export function deleteMovieFromList(userId, listId, movieId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId + "/movies/" + movieId,
+        url: USER_URL + "/" + userId + "/" + listId + "/movies/" + movieId,
         method: DELETE
     });
 }

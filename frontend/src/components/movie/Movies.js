@@ -3,6 +3,7 @@ import {ACCESS_TOKEN} from "../../utils/Constants";
 import FilterableTable from "../../commons/table/FilterableTable";
 import LoadingIndicator from "../../commons/loading/LoadingIndicator";
 import {deleteMovie, getAllMovies} from "../../utils/MovieUtils";
+import {addMovieToList} from "../../utils/UserUtils";
 
 export default class Movies extends Component {
     constructor(props) {
@@ -18,7 +19,8 @@ export default class Movies extends Component {
         this.checkAccessToken();
         this.loadMovies();
         this.setState({
-            isNotAdmin: localStorage.getItem("userRole") !== "Admin"
+            isNotAdmin: localStorage.getItem("userRole") !== "Admin",
+            id: localStorage.userID
         });
     }
 
@@ -40,8 +42,8 @@ export default class Movies extends Component {
                         isInfo={false}
                         isMovieList={true}
                         addHandler={this.handleAddClick}
-                        leftButtonHandler={this.handleUpdateClick}
-                        rightButtonHandler={this.handleDeleteClick}
+                        leftButtonHandler={this.handleLeftClick}
+                        rightButtonHandler={this.handleRightClick}
                         infoHandler={this.handleInfoClick}
                         {...this.props}
                     />
@@ -122,12 +124,16 @@ export default class Movies extends Component {
         return this.state.isNotAdmin ? "Favorite" : "Delete";
     };
 
-    handleAddClick = () => {
-        console.log("-----------movie add------------");
-        this.props.history.push({
-            pathname: "/movies/add",
-            state: {}
-        });
+    handleLeftClick = (movieID) => {
+        this.state.isNotAdmin ? this.handleAddWatchedClick(movieID) : this.handleUpdateClick(movieID);
+    };
+    
+    handleAddWatchedClick = (movieID) => {
+        console.log("-----------watched click------------");
+        addMovieToList(this.state.id, "0", movieID)
+            .then((result) => {
+                // this.loadDirectorMovies();
+            })
     };
 
     handleUpdateClick = (movieID) => {
@@ -136,6 +142,10 @@ export default class Movies extends Component {
             pathname: "/movies/update/" + movieID,
             state: {id: movieID}
         });
+    };
+
+    handleRightClick = (movieID) => {
+        this.state.isNotAdmin ? this.handleAddFavoriteClick(movieID) : this.handleDeleteClick(movieID);
     };
 
 // error when try to delete tba directors. backend error
@@ -148,6 +158,14 @@ export default class Movies extends Component {
             })
     };
 
+    handleAddFavoriteClick = (movieID) => {
+        console.log("-----------favorite click------------");
+        addMovieToList(this.state.id, "1", movieID)
+            .then((result) => {
+                // this.loadDirectorMovies();
+            })
+    };
+    
     handleInfoClick = (movieID) => {
         console.log("-----------movie info------------" + movieID);
         this.props.history.push({
@@ -155,4 +173,5 @@ export default class Movies extends Component {
             state: {id: movieID}
         });
     };
+    
 }

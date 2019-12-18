@@ -24,7 +24,8 @@ export default class MovieInfo extends Component {
             if (id) {
                 this.loadMovie(id);
                 this.setState({
-                    id: id
+                    id: id,
+                    userID: localStorage.userID
                 });
             }
         }
@@ -200,14 +201,15 @@ export default class MovieInfo extends Component {
 
     handleAddWatchedClick = (movieID) => {
         // TODO what's list id?
-        addMovieToList(this.props.currentUser.id, "listID", movieID)
+        console.log("-----------watched click------------");
+        addMovieToList(this.state.userID, "0", movieID)
             .then((result) => {
                 // this.loadDirectorMovies();
             })
     };
 
     handleRightClick = () => {
-        this.state.isNotAdmin ? this.this.handleAddFavoriteClick(this.state.id) : this.handleDeleteClick(this.state.id);
+        this.state.isNotAdmin ? this.handleAddFavoriteClick(this.state.id) : this.handleDeleteClick(this.state.id);
     };
 
     handleDeleteClick = (movieID) => {
@@ -220,7 +222,8 @@ export default class MovieInfo extends Component {
 
     handleAddFavoriteClick = (movieID) => {
         // TODO what's list id?
-        addMovieToList(this.props.currentUser.id, "listID", movieID)
+        console.log("-----------favorite click------------");
+        addMovieToList(this.state.userID, "1", movieID)
             .then((result) => {
                 // this.loadDirectorMovies();
             })

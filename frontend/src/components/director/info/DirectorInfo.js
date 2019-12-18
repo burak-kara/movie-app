@@ -14,7 +14,7 @@ export default class DirectorInfo extends Component {
         this.state = {
             director: {},
             movies: null,
-            isNotAdmin: true
+            isNotAdmin: true,
         }
     }
 
@@ -194,14 +194,15 @@ export default class DirectorInfo extends Component {
 
     handleAddWatchedClick = (movieID) => {
         // TODO what's list id?
-        addMovieToList(this.props.currentUser.id, "listID", movieID)
+        console.log("-----------watched click------------");
+        addMovieToList(localStorage.userID, "0", movieID)
             .then((result) => {
                 // this.loadDirectorMovies();
             })
     };
 
     handleRightClick = (movieID) => {
-        this.state.isNotAdmin ? this.this.handleAddFavoriteClick(movieID) : this.handleDeleteClick(movieID);
+        this.state.isNotAdmin ? this.handleAddFavoriteClick(movieID) : this.handleDeleteClick(movieID);
     };
 
     handleDeleteClick = (movieID) => {
@@ -217,7 +218,8 @@ export default class DirectorInfo extends Component {
 
     handleAddFavoriteClick = (movieID) => {
         // TODO what's list id?
-        addMovieToList(this.props.currentUser.id, "listID", movieID)
+        console.log("-----------favorite click------------");
+        addMovieToList(localStorage.userID, "1", movieID)
             .then((result) => {
                 // this.loadDirectorMovies();
             })
