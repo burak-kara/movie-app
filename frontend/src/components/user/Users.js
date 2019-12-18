@@ -10,10 +10,8 @@ export default class Users extends Component {
         super(props);
         this.state = {
             data: null,
-            isLoading: false,
-            isBadRequest: false,
-            isNotFound: false,
-            isServerError: false,
+            isLoading: true,
+            isNotAdmin: this.props.currentUser.role !== "Admin"
         }
     }
 
@@ -25,7 +23,13 @@ export default class Users extends Component {
         // TODO
         return (
             <div>
-                {/* FILTER TABLE */}
+                {/*  
+                IF -> notAdmin
+                    Call User Info that has Info and Lists 
+                ELSE 
+                    Call UserList as Component that shows all
+                    users
+                */}
             </div>
         );
     }
@@ -36,7 +40,7 @@ export default class Users extends Component {
                 this.setState({
                     data: response
                 })
-            }).catch(error => this.catchError(error.status))
+            })
     };
 
     catchError = (status) => {

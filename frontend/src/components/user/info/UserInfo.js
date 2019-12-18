@@ -67,6 +67,21 @@ export default class UserInfo extends Component {
         );
     }
 
+    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.location.state) {
+            let id = nextProps.location.state.id;
+            if (id) {
+                this.loadUser(id);
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps !== this.props) {
+            this.loadUser(this.props.location.state.id)
+        }
+    }
+
     loadUser = (id) => {
         this.setState({isLoading: true});
         console.log("USER ID: "+id)
