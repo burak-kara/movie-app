@@ -13,6 +13,7 @@ import AddDirector from "../components/director/add/AddDirector";
 import WarningPage from "../commons/warning/WarningPage";
 import Movies from "../components/movie/Movies";
 import MovieInfo from "../components/movie/info/MovieInfo";
+import AddMovie from "../components/movie/add/AddMovie";
 
 class App extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class App extends Component {
                     <Route
                         exact path="/movies/add"
                         render={(props) =>
-                            <AddDirector
+                            <AddMovie
                                 isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser}
                                 {...props}
@@ -73,7 +74,7 @@ class App extends Component {
                     <Route
                         exact path="/movies/update/:id"
                         render={(props) =>
-                            <AddDirector
+                            <AddMovie
                                 isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser}
                                 {...props}
