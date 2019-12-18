@@ -6,9 +6,6 @@ import Login from "../commons/login/Login";
 import AppHeader from "../commons/header/AppHeader";
 import Home from "../commons/home/Home";
 
-import Users from "../components/user/Users";
-import UserInfo from "../components/user/info/UserInfo"
-
 import Directors from "../components/director/Directors";
 import DirectorInfo from "../components/director/info/DirectorInfo";
 import AddDirector from "../components/director/add/AddDirector";
