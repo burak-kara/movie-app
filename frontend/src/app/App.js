@@ -17,6 +17,7 @@ import AddMovie from "../components/movie/add/AddMovie";
 import Users from "../components/user/Users";
 import AddUser from "../components/user/add/AddUser";
 import UserInfo from "../components/user/info/UserInfo";
+import MovieList from "../components/user/list/MovieList";
 
 class App extends Component {
     constructor(props) {
@@ -88,6 +89,16 @@ class App extends Component {
                         exact path="/users/me"
                         render={(props) =>
                             <UserInfo
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/users/:userID/:listID"
+                        render={(props) =>
+                            <MovieList
                                 isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser}
                                 {...props}
