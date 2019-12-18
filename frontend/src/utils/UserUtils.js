@@ -51,13 +51,6 @@ export function deleteUser(userId) {
     });
 }
 
-export function isExistUsername(username) {
-    return request({
-        url: USER_URL + "/isExist/" + username,
-        method: GET
-    });
-}
-
 export function getAllUserLists(userId) {
     return request({
         url: USER_URL + "/" + userId + "/lists",

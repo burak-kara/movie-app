@@ -39,7 +39,9 @@ export default class DataRow extends Component {
     renderData = () => {
         let columns = [];
         for (let key in this.state.data) {
-            if (key !== "id" && key !== "movies")
+            if (key !== "id" && key !== "movies"
+                && key !== "lists" && key !== "password"
+                && key !== "accessToken")
                 columns.push(
                     <td
                         onClick={this.handleInfoClick}

@@ -50,7 +50,9 @@ export default class DataTable extends Component {
             let keys = Object.keys(this.state.data[0]);
             for (let key in keys) {
                 let str = keys[key];
-                if (str !== "id" && str !== "movies")
+                if (str !== "id" && str !== "movies"
+                    && str !== "lists" && str !== "password"
+                && str !== "accessToken")
                     headers.push(
                         <th key={key}>
                             {str[0].toUpperCase() + str.slice(1).toLowerCase()}

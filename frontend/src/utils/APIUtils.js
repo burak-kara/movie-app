@@ -1,5 +1,4 @@
 export function request(options) {
-    // TODO add Authorization token to headers
     return fetch(options.url, options)
         .then(response => response.json()
             .then(json => {
