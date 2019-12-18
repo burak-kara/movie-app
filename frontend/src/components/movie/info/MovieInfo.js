@@ -207,7 +207,7 @@ export default class MovieInfo extends Component {
     };
 
     handleRightClick = () => {
-        this.state.isNotAdmin ? this.this.handleAddFavoriteClick(this.state.id) : this.handleDeleteClick(this.state.id);
+        this.state.isNotAdmin ? this.handleAddFavoriteClick(this.state.id) : this.handleDeleteClick(this.state.id);
     };
 
     handleDeleteClick = (movieID) => {

@@ -51,16 +51,9 @@ export function deleteUser(userId) {
     });
 }
 
-export function getAllUserLists(userId) {
-    return request({
-        url: USER_URL + "/" + userId + "/lists",
-        method: GET
-    });
-}
-
 export function getMoviesFromUserList(userId, listId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId,
+        url: USER_URL + "/" + userId + "/" + listId,
         method: GET
     });
 }
@@ -77,7 +70,7 @@ export function addMovieToList(userId, listId, movieId) {
 // TODO how to delete movie from the list
 export function deleteMovieFromList(userId, listId, movieId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId + "/movies/" + movieId,
+        url: USER_URL + "/" + userId + "/" + listId + "/" + movieId,
         method: DELETE
     });
 }

@@ -3,7 +3,6 @@ import {ACCESS_TOKEN} from "../../../utils/Constants";
 import {addMovieToList, deleteUser, getUser} from "../../../utils/UserUtils";
 import {IconContext} from "react-icons";
 import {FaUserAlt} from "react-icons/fa";
-import {deleteMovie} from "../../../utils/MovieUtils";
 
 export default class UserInfo extends Component {
     constructor(props) {
@@ -192,15 +191,17 @@ export default class UserInfo extends Component {
 
     //TODO go to watched list
     handleWatchedClick = (userID) => {
-        // TODO what's list id?
-        addMovieToList(this.props.currentUser.id, "listID", userID)
-            .then((result) => {
-                // this.loadDirectorMovies();
-            })
+        this.props.history.push({
+            pathname: "/users/" + userID + "/0",
+            state: {
+                listID: 0,
+                userID: userID
+            }
+        });
     };
 
     handleRightClick = () => {
-        this.state.isNotAdmin ? this.this.handleFavoriteClick(this.state.id) : this.handleDeleteClick(this.state.id);
+        this.state.isNotAdmin ? this.handleFavoriteClick(this.state.id) : this.handleDeleteClick(this.state.id);
     };
 
     handleDeleteClick = (userID) => {
@@ -211,17 +212,18 @@ export default class UserInfo extends Component {
             });
     };
 
-    // TODO go to fav list
     handleFavoriteClick = (userID) => {
-        // TODO what's list id?
-        addMovieToList(this.props.currentUser.id, "listID", userID)
-            .then((result) => {
-                // this.loadDirectorMovies();
-            })
+        this.props.history.push({
+            pathname: "/users/" + userID + "/1",
+            state: {
+                listID: 1,
+                userID: userID
+            }
+        });
     };
 
     handleBackClick = () => {
-        let path = this.state.isNotAdmin ? "/": "/users";
+        let path = this.state.isNotAdmin ? "/" : "/users";
         this.props.history.push(path);
     };
 }
