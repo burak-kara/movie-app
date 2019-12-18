@@ -182,6 +182,7 @@ class App extends Component {
         });
         localStorage.setItem("user", response.user);
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("userID", response.user.id);
     };
 }
 

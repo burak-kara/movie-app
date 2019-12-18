@@ -9,7 +9,7 @@ export default class Users extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null,
+            data: {},
             isLoading: true,
             isNotAdmin: this.props.currentUser.role !== "Admin"
         }
@@ -20,6 +20,9 @@ export default class Users extends Component {
     }
 
     render() {
+        this.checkAccessToken();
+        this.checkErrorStates();
+        this.checkUserType();
         // TODO
         return (
             <div>
@@ -30,17 +33,23 @@ export default class Users extends Component {
                     Call UserList as Component that shows all
                     users
                 */}
+
             </div>
         );
     }
 
     loadUsers = () => {
+        this.setState({
+            isLoading: true
+        });
         getAllUsers()
-            .then(response => {
+            .then((response) => {
+                console.log(response);
                 this.setState({
                     data: response
                 })
             })
+        console.log(this.state.data)
     };
 
     catchError = (status) => {
@@ -59,6 +68,63 @@ export default class Users extends Component {
                 isServerError: true,
                 isLoading: false
             })
+        }
+    };
+
+    checkUserType = () => {
+        if(this.state.isNotAdmin){
+            this.props.history.push({
+                pathname: "/users/mypage"
+            });
+        }
+
+    };
+
+    checkAccessToken = () => {
+        if (!localStorage.getItem(ACCESS_TOKEN)) {
+            this.props.history.push({
+                pathname: "/please-login",
+                state: {
+                    title: "Welcome",
+                    info: "Please Login",
+                    buttonText: "Login",
+                    link: "/login"
+                }
+            });
+        }
+    };
+
+    checkErrorStates = () => {
+        if (this.state.isBadRequest) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "400",
+                    info: "Bad Request",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        } else if (this.state.isNotFound) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "404",
+                    info: "The page you are looking for was not found",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
+        } else if (this.state.isServerError) {
+            this.props.history.push({
+                pathname: "/error",
+                state: {
+                    title: "500",
+                    info: "Oops! Something went wrong",
+                    buttonText: "Go Back",
+                    link: "/"
+                }
+            });
         }
     };
 

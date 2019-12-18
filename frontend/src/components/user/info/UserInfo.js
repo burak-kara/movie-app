@@ -5,25 +5,30 @@ import {FaUserAlt} from "react-icons/fa";
 import {IconContext} from "react-icons";
 import FilterableTable from "../../../commons/table/FilterableTable";
 import './UserInfo.css'
+var FilterTable  = require("react-filter-table")
 
 export default class UserInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
             user: {},
+            watchedList: {},
+            favoriteList: {},
             isNotAdmin: true
         }
     }
 
     componentDidMount() {
         this.checkAccessToken();
-        if (this.props.location.state) {
-            let id = this.props.location.state.id;
+        console.log(localStorage.userID)
+            let id = localStorage.userID;
             if (id) {
                 console.log("called here")
                 this.loadUser(id);
+                this.setState({
+                    id: id
+                });
             }
-        }
         this.setState({
             isNotAdmin: localStorage.getItem("userRole") !== "Admin"
         });
@@ -61,13 +66,14 @@ export default class UserInfo extends Component {
                     </div>
                 </div>
                 <div className="row movies-row">
-                {/* <FilterableTable data={user.lists} buttonText={"Add Movie"}/> */}
+                <p className="font-weight-bold">{}</p>
+                { <FilterableTable data={console.log(this.state.watchedList[0])} buttonText={""}/>}
                 </div>
             </div>
         );
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+    componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.location.state) {
             let id = nextProps.location.state.id;
             if (id) {
@@ -84,11 +90,13 @@ export default class UserInfo extends Component {
 
     loadUser = (id) => {
         this.setState({isLoading: true});
-        console.log("USER ID: "+id)
+        console.log("USER ID: " + id)
         getUser(id).then((response) => {
-            console.log("###"+response)
+            console.log(response)
             this.setState({
                 user: response,
+                watchedList: response.lists[0].movies,
+                favoriteList: response.lists[1].movies,
                 isLoading: false
             });
         })
