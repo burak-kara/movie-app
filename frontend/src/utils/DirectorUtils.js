@@ -8,13 +8,6 @@ export function getDirectorProfile(directorId) {
     });
 }
 
-export function getDirectorMovies(directorId) {
-    return request({
-        url: DIRECTOR_URL + "/" + directorId + "/movies",
-        method: GET
-    });
-}
-
 export function getAllDirectors() {
     return request({
         url: DIRECTOR_URL,
@@ -30,7 +23,6 @@ export function addDirector(addParams) {
     });
 }
 
-// TODO delete update done by add
 export function updateDirector(directorId, updateParams) {
     return request({
         url: DIRECTOR_URL + "/" + directorId,

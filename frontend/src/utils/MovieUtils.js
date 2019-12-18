@@ -15,14 +15,6 @@ export function getAllMovies() {
     });
 }
 
-export function addImdbMovie(movieParams) {
-    return request({
-        url: MOVIE_URL + "/imdb",
-        method: POST,
-        body: JSON.stringify(movieParams)
-    });
-}
-
 export function addMovie(addParams) {
     return request({
         url: MOVIE_URL,
