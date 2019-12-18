@@ -1,35 +1,32 @@
 import React, {Component} from 'react';
-import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import './App.css';
 import Login from "../commons/login/Login";
-import {getCurrentUser} from "../utils/UserUtils";
 
 import AppHeader from "../commons/header/AppHeader";
 import Home from "../commons/home/Home";
 
 import Directors from "../components/director/Directors";
 import DirectorInfo from "../components/director/info/DirectorInfo";
-import AddDirector from "../components/director/operations/AddDirector";
+import AddDirector from "../components/director/add/AddDirector";
 
-import users from "../assets/test_data/users.json";
+import WarningPage from "../commons/warning/WarningPage";
+import Movies from "../components/movie/Movies";
+import MovieInfo from "../components/movie/info/MovieInfo";
+import AddMovie from "../components/movie/add/AddMovie";
+import Users from "../components/user/Users";
+import AddUser from "../components/user/add/AddUser";
+import UserInfo from "../components/user/info/UserInfo";
+import MovieList from "../components/user/list/MovieList";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // TODO
-            // currentUser: localStorage.getItem("user"),
-            // isAuthenticated: localStorage.getItem("isAuth"),
-            // isLoading: false
-            currentUser: users.users[0],
-            isAuthenticated: true,
+            currentUser: localStorage.getItem("user"),
+            isAuthenticated: localStorage.getItem("isAuthenticated"),
             isLoading: false
         }
-    }
-
-    componentDidMount() {
-        // TODO uncomment
-        // this.loadCurrentUser();
     }
 
     render() {
@@ -38,18 +35,142 @@ class App extends Component {
                 <AppHeader
                     currentUser={this.state.currentUser}
                     isAuthenticated={this.state.isAuthenticated}
+                    userID={this.state.userID}
                     onLogout={this.handleLogout}
                 />
                 <Switch>
                     <Route
                         exact path="/"
-                        component={Home}
+                        render={(props) => <Home {...props}/>}
                     />
                     <Route
                         exact path="/login"
+                        render={(props) => <Login onLogin={this.handleLogin} {...props}/>}
+                    />
+                    <Route
+                        exact path="/please-login"
+                        render={(props) => <WarningPage {...props}/>}
+                    />
+                    <Route
+                        exact path="/error"
+                        render={(props) => <WarningPage {...props}/>}
+                    />
+                    <Route
+                        exact path="/users"
                         render={(props) =>
-                            <Login
-                                onLogin={this.handleLogin}
+                            <Users
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/users/add"
+                        render={(props) =>
+                            <AddUser
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/users/update/:id"
+                        render={(props) =>
+                            <AddUser
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/users/me"
+                        render={(props) =>
+                            <UserInfo
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/users/:userID/:listID"
+                        render={(props) =>
+                            <MovieList
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/users/:id"
+                        render={(props) =>
+                            <UserInfo
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies"
+                        render={(props) =>
+                            <Movies
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route 
+                        exact path="/users"
+                        render={(props) =>
+                            <Users
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/users/:id"
+                        render={(props) =>
+                            <UserInfo
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/add"
+                        render={(props) =>
+                            <AddMovie
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/update/:id"
+                        render={(props) =>
+                            <AddMovie
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
+                                {...props}
+                            />
+                        }
+                    />
+                    <Route
+                        exact path="/movies/:id"
+                        render={(props) =>
+                            <MovieInfo
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
                                 {...props}
                             />
                         }
@@ -99,32 +220,21 @@ class App extends Component {
         );
     }
 
-    loadCurrentUser = () => {
-        this.setState({isLoading: true});
-
-        getCurrentUser()
-            .then(response => {
-                this.setState({
-                    currentUser: response,
-                    isAuthenticated: true,
-                    isLoading: false
-                });
-                localStorage.setItem("user", response);
-                localStorage.setItem("isAuthenticated", true);
-            }).catch(error => {
-            this.setState({isLoading: false})
-        });
-    };
-
     handleLogout = () => {
         localStorage.clear();
         this.setState({currentUser: null, isAuthenticated: false});
-        this.props.history.push("/");
     };
 
-    handleLogin = () => {
-        this.loadCurrentUser();
-        this.props.history.push("/");
+    handleLogin = (response) => {
+        this.setState({
+            currentUser: response.user,
+            isAuthenticated: true,
+            isLoading: false,
+            userID: response.user.id
+        });
+        localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("userRole", response.user.role);
+        localStorage.setItem("userID", response.user.id);
     };
 }
 

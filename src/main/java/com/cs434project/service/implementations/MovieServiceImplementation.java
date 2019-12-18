@@ -25,11 +25,13 @@ public class MovieServiceImplementation implements MovieService {
         movieRepository.save(m);
     }
 
+    @Override
     public Movie getMovie(long id) {
         if(movieRepository.findById(id).isPresent()){ return movieRepository.findById(id).get(); }
         return null; // this can be replaced by the null obj from the DB. (aka. Null Pattern)
     }
 
+    @Override
     public void deleteMovie(long id) {
         movieRepository.deleteById(id);
     }

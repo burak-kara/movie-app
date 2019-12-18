@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {deleteDirector, getAllDirectors} from "../../utils/DirectorUtils";
-import FilterableTable from "../../commons/table/FilterableTable";
 import {ACCESS_TOKEN} from "../../utils/Constants";
+import {deleteUser, getAllUsers} from "../../utils/UserUtils";
 import LoadingIndicator from "../../commons/loading/LoadingIndicator";
-import "./Directors.css";
+import FilterableTable from "../../commons/table/FilterableTable";
 
-export default class Directors extends Component {
+export default class Users extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +16,8 @@ export default class Directors extends Component {
 
     componentDidMount() {
         this.checkAccessToken();
-        this.loadDirectors();
+        this.checkRole();
+        this.loadUsers();
         this.setState({
             isNotAdmin: localStorage.getItem("userRole") !== "Admin"
         });
@@ -25,6 +25,7 @@ export default class Directors extends Component {
 
     render() {
         this.checkAccessToken();
+        this.checkRole();
         if (this.state.isLoading) {
             return (<LoadingIndicator/>);
         }
@@ -34,7 +35,7 @@ export default class Directors extends Component {
                 <div className="row">
                     <FilterableTable
                         data={this.state.data}
-                        addButtonText={"Add Director"}
+                        addButtonText={"Add User"}
                         leftButtonText={"Update"}
                         rightButtonText={"Delete"}
                         isNotAdmin={this.state.isNotAdmin}
@@ -65,17 +66,28 @@ export default class Directors extends Component {
         }
     };
 
-    loadDirectors = () => {
+    checkRole = () => {
+        if (localStorage.getItem("userRole") !== "Admin") {
+            this.props.history.push({
+                pathname: "/users/me",
+                state: {
+                    id: localStorage.getItem("userID")
+                }
+            });
+        }
+    };
+
+    loadUsers = () => {
         this.setState({
             isLoading: true
         });
-        getAllDirectors()
+        getAllUsers()
             .then(response => {
                 this.setState({
                     data: response,
                     isLoading: false
                 }, () => {
-                    console.log("inside get all directors"); // TODO delete
+                    console.log("inside get all users"); // TODO delete
                     console.log(this.state.data);
                 });
             })
@@ -116,35 +128,36 @@ export default class Directors extends Component {
     };
 
     handleAddClick = () => {
-        console.log("-----------director add------------");
+        console.log("-----------user add------------");
         this.props.history.push({
-            pathname: "/directors/add",
+            pathname: "/users/add",
             state: {}
         });
     };
 
-    handleUpdateClick = (directorID) => {
-        console.log("-----------director update------------");
+    handleUpdateClick = (userID) => {
+        console.log("-----------user update------------");
         this.props.history.push({
-            pathname: "/directors/update/" + directorID,
-            state: {id: directorID}
+            pathname: "/users/update/" + userID,
+            state: {id: userID}
         });
     };
 
-    handleDeleteClick = (directorID) => {
-        console.log("-----------director delete------------");
-        deleteDirector(directorID)
+    // error when try to delete tba directors. backend error
+    handleDeleteClick = (userID) => {
+        console.log("-----------user delete------------");
+        deleteUser(userID)
             .then((response) => {
-                console.log("Deleted done in directors");
-                this.loadDirectors();
+                console.log("Deleted done in users");
+                this.loadUsers();
             })
     };
 
-    handleInfoClick = (directorID) => {
-        console.log("-----------director info------------" + directorID);
+    handleInfoClick = (userID) => {
+        console.log("-----------user info------------" + userID);
         this.props.history.push({
-            pathname: "/directors/" + directorID,
-            state: {id: directorID}
+            pathname: "/users/" + userID,
+            state: {id: userID}
         });
     };
 }

@@ -1,0 +1,22 @@
+.movie-icon-row {
+    margin-top: 20px;
+}
+
+.movie-info-director-div {
+    cursor: pointer;
+}
+
+.movie-info-button-row {
+    justify-content: center;
+    margin-bottom: 25px;
+    align-self: center;
+}
+
+.movie-info-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.movie-info-button {
+    min-width: 100px;
+}

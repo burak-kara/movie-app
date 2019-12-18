@@ -1,25 +1,41 @@
 import React, {Component} from "react";
 import DataTable from "./DataTable";
-import {WarningPage} from "../warning/WarningPage";
-import "./Table.css";
 import {IoIosSearch} from 'react-icons/io';
+import "./Table.css";
 
 export default class FilterableTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null,
+            data: {},
             filterText: '',
-            isNotAdmin: true,
         };
     }
 
     componentDidMount() {
-        this.checkData();
         this.setState({
             data: this.props.data,
-            isNotAdmin: this.props.userRole !== "Admin"
+        }, () => {
+            console.log("Filterable Table componentDidMount");
+            console.log(this.props.data);
         })
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({
+            data: nextProps.data,
+        }, () => {
+            console.log("Filterable Table componentWillReceiveProps");
+            console.log(this.props.data);
+        })
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps !== this.props) {
+            this.setState({
+                data: this.props.data
+            })
+        }
     }
 
     render() {
@@ -30,19 +46,6 @@ export default class FilterableTable extends Component {
             </div>
         );
     }
-
-    checkData = () => {
-        if (!this.props.data) {
-            return (
-                <WarningPage
-                    title={"404"}
-                    info={"The page you are looking for was not found"}
-                    buttonText={"Home"}
-                    link={"/"}
-                />
-            );
-        }
-    };
 
     renderSearchBar = () => {
         return (
@@ -58,9 +61,10 @@ export default class FilterableTable extends Component {
                 <div className="col add-button-col">
                     <button
                         type="button" className="btn btn-primary add-button"
-                        onClick={this.handleAddClick} disabled={this.state.isNotAdmin}
+                        onClick={this.handleAddClick}
+                        disabled={this.props.isNotAdmin}
                     >
-                        {this.props.buttonText}
+                        {this.props.addButtonText}
                     </button>
                 </div>
             </div>
@@ -78,11 +82,15 @@ export default class FilterableTable extends Component {
     renderDataTable = () => {
         return (
             <DataTable
-                objects={this.props.data}
+                data={this.state.data}
                 filterText={this.state.filterText}
-                isNotAdmin={this.state.isNotAdmin}
-                updateHandler={this.props.updateHandler}
-                deleteHandler={this.props.deleteHandler}
+                leftButtonText={this.props.leftButtonText}
+                rightButtonText={this.props.rightButtonText}
+                isNotAdmin={this.props.isNotAdmin}
+                isInfo={this.props.isInfo}
+                isMovieList={this.props.isMovieList}
+                leftButtonHandler={this.props.leftButtonHandler}
+                rightButtonHandler={this.props.rightButtonHandler}
                 infoHandler={this.props.infoHandler}
             />
         );

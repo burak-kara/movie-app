@@ -3,16 +3,14 @@ import {request} from "./APIUtils";
 
 export function login(loginParams) {
     return request({
-        url: USER_URL + "/signin",
+        url: USER_URL + "/login",
         method: POST,
+        credentials: 'same-origin',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(loginParams)
-    });
-}
-
-export function getCurrentUser() {
-    return request({
-        url: USER_URL + "/me",
-        method: GET
     });
 }
 
@@ -53,23 +51,9 @@ export function deleteUser(userId) {
     });
 }
 
-export function isExistUsername(username) {
-    return request({
-        url: USER_URL + "/isExist/" + username,
-        method: GET
-    });
-}
-
-export function getAllUserLists(userId) {
-    return request({
-        url: USER_URL + "/" + userId + "/lists",
-        method: GET
-    });
-}
-
 export function getMoviesFromUserList(userId, listId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId,
+        url: USER_URL + "/" + userId + "/" + listId,
         method: GET
     });
 }
@@ -77,16 +61,15 @@ export function getMoviesFromUserList(userId, listId) {
 // TODO how to add movie to the list
 export function addMovieToList(userId, listId, movieId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId,
-        method: POST,
-        body: JSON.stringify(movieId) // TODO possible mistake
+        url: USER_URL + "/" + userId + "/" + listId + "/" + movieId,
+        method: GET
     });
 }
 
 // TODO how to delete movie from the list
 export function deleteMovieFromList(userId, listId, movieId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId + "/movies/" + movieId,
+        url: USER_URL + "/" + userId + "/" + listId + "/" + movieId,
         method: DELETE
     });
 }

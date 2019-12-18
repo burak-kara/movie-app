@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {deleteDirector, getAllDirectors} from "../../utils/DirectorUtils";
-import FilterableTable from "../../commons/table/FilterableTable";
 import {ACCESS_TOKEN} from "../../utils/Constants";
+import FilterableTable from "../../commons/table/FilterableTable";
 import LoadingIndicator from "../../commons/loading/LoadingIndicator";
-import "./Directors.css";
+import {deleteMovie, getAllMovies} from "../../utils/MovieUtils";
+import {addMovieToList} from "../../utils/UserUtils";
 
-export default class Directors extends Component {
+export default class Movies extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,9 +17,10 @@ export default class Directors extends Component {
 
     componentDidMount() {
         this.checkAccessToken();
-        this.loadDirectors();
+        this.loadMovies();
         this.setState({
-            isNotAdmin: localStorage.getItem("userRole") !== "Admin"
+            isNotAdmin: localStorage.getItem("userRole") !== "Admin",
+            id: localStorage.userID
         });
     }
 
@@ -34,22 +35,22 @@ export default class Directors extends Component {
                 <div className="row">
                     <FilterableTable
                         data={this.state.data}
-                        addButtonText={"Add Director"}
-                        leftButtonText={"Update"}
-                        rightButtonText={"Delete"}
+                        addButtonText={"Add Movie"}
+                        leftButtonText={this.getLeftButtonText()}
+                        rightButtonText={this.getRightButtonText()}
                         isNotAdmin={this.state.isNotAdmin}
                         isInfo={false}
-                        isMovieList={false}
+                        isMovieList={true}
                         addHandler={this.handleAddClick}
-                        leftButtonHandler={this.handleUpdateClick}
-                        rightButtonHandler={this.handleDeleteClick}
+                        leftButtonHandler={this.handleLeftClick}
+                        rightButtonHandler={this.handleRightClick}
                         infoHandler={this.handleInfoClick}
                         {...this.props}
                     />
                 </div>
             </div>
         );
-    }
+    };
 
     checkAccessToken = () => {
         if (!localStorage.getItem(ACCESS_TOKEN)) {
@@ -65,17 +66,17 @@ export default class Directors extends Component {
         }
     };
 
-    loadDirectors = () => {
+    loadMovies = () => {
         this.setState({
             isLoading: true
         });
-        getAllDirectors()
+        getAllMovies()
             .then(response => {
                 this.setState({
                     data: response,
                     isLoading: false
                 }, () => {
-                    console.log("inside get all directors"); // TODO delete
+                    console.log("inside get all movies"); // TODO delete
                     console.log(this.state.data);
                 });
             })
@@ -115,36 +116,62 @@ export default class Directors extends Component {
         }
     };
 
-    handleAddClick = () => {
-        console.log("-----------director add------------");
-        this.props.history.push({
-            pathname: "/directors/add",
-            state: {}
-        });
+    getLeftButtonText = () => {
+        return this.state.isNotAdmin ? "Watched" : "Update";
     };
 
-    handleUpdateClick = (directorID) => {
-        console.log("-----------director update------------");
-        this.props.history.push({
-            pathname: "/directors/update/" + directorID,
-            state: {id: directorID}
-        });
+    getRightButtonText = () => {
+        return this.state.isNotAdmin ? "Favorite" : "Delete";
     };
 
-    handleDeleteClick = (directorID) => {
-        console.log("-----------director delete------------");
-        deleteDirector(directorID)
-            .then((response) => {
-                console.log("Deleted done in directors");
-                this.loadDirectors();
+    handleLeftClick = (movieID) => {
+        this.state.isNotAdmin ? this.handleAddWatchedClick(movieID) : this.handleUpdateClick(movieID);
+    };
+    
+    handleAddWatchedClick = (movieID) => {
+        console.log("-----------watched click------------");
+        addMovieToList(this.state.id, "0", movieID)
+            .then((result) => {
+                // this.loadDirectorMovies();
             })
     };
 
-    handleInfoClick = (directorID) => {
-        console.log("-----------director info------------" + directorID);
+    handleUpdateClick = (movieID) => {
+        console.log("-----------movie update------------");
         this.props.history.push({
-            pathname: "/directors/" + directorID,
-            state: {id: directorID}
+            pathname: "/movies/update/" + movieID,
+            state: {id: movieID}
         });
     };
+
+    handleRightClick = (movieID) => {
+        this.state.isNotAdmin ? this.handleAddFavoriteClick(movieID) : this.handleDeleteClick(movieID);
+    };
+
+// error when try to delete tba directors. backend error
+    handleDeleteClick = (movieID) => {
+        console.log("-----------movie delete------------");
+        deleteMovie(movieID)
+            .then((response) => {
+                console.log("Deleted done in movies");
+                this.loadMovies();
+            })
+    };
+
+    handleAddFavoriteClick = (movieID) => {
+        console.log("-----------favorite click------------");
+        addMovieToList(this.state.id, "1", movieID)
+            .then((result) => {
+                // this.loadDirectorMovies();
+            })
+    };
+    
+    handleInfoClick = (movieID) => {
+        console.log("-----------movie info------------" + movieID);
+        this.props.history.push({
+            pathname: "/movies/" + movieID,
+            state: {id: movieID}
+        });
+    };
+    
 }
