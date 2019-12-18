@@ -7,7 +7,7 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
+            username: "",
             password: "",
             status: 200,
             renderAlert: false
@@ -20,9 +20,9 @@ export default class Login extends Component {
                 <h1 className="title">Login</h1>
                 <form className="login-form-container needs-validation">
                     <div className="form-group login-form">
-                        <label>Email address</label>
+                        <label>Username</label>
                         <input
-                            className="form-control" name="email"
+                            className="form-control" name="username"
                             placeholder="Enter username"
                             onChange={this.handleChange} required
                         />
@@ -50,7 +50,7 @@ export default class Login extends Component {
 
     handleSubmit = () => {
         const params = {
-            "username": this.state.email,
+            "username": this.state.username,
             "password": this.state.password
         };
         login(params)
@@ -84,7 +84,7 @@ export default class Login extends Component {
             if (this.state.status === 401) {
                 return (
                     <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Error!</strong> Email or password is incorrect.
+                        <strong>Error!</strong> username or password is incorrect.
                         <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
