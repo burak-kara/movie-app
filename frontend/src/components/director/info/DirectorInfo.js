@@ -1,30 +1,49 @@
 import React, {Component} from 'react';
-import {deleteDirector, getDirectorMovies, getDirectorProfile} from "../../../utils/DirectorUtils";
-import {ACCESS_TOKEN} from "../../../utils/Constants";
 import {FaUserAlt} from "react-icons/fa";
 import {IconContext} from "react-icons";
 import FilterableTable from "../../../commons/table/FilterableTable";
-import './DirectorInfo.css';
+import {ACCESS_TOKEN} from "../../../utils/Constants";
+import {getDirectorProfile} from "../../../utils/DirectorUtils";
 import {deleteMovie} from "../../../utils/MovieUtils";
 import {addMovieToList} from "../../../utils/UserUtils";
+import './DirectorInfo.css';
 
 export default class DirectorInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
             director: {},
-            movies: {},
-            isNotAdmin: this.props.currentUser.role !== "Admin"
+            movies: null,
+            isNotAdmin: true
         }
     }
 
     componentDidMount() {
-        let id;
+        this.checkAccessToken();
+        this.checkErrorStates();
         if (this.props.location.state) {
-            id = this.props.location.state.id;
+            let id = this.props.location.state.id;
+            if (id) {
+                this.loadDirector(id);
+            }
         }
-        if (id) {
-            this.loadDirector(id);
+        this.setState({
+            isNotAdmin: localStorage.getItem("userRole") !== "Admin"
+        });
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.location.state) {
+            let id = nextProps.location.state.id;
+            if (id) {
+                this.loadDirector(id);
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps !== this.props) {
+            this.loadDirector(this.props.location.state.id)
         }
     }
 
@@ -49,7 +68,7 @@ export default class DirectorInfo extends Component {
                             </p>
                         </div>
                         <div className="row info-row-inner">
-                            <p className="font-weight-bold">{"Surname:"}</p>
+                            <p className="font-weight-bold">Surname:</p>
                             <p className="font-weight-normal">
                                 {this.state.director.surname}
                             </p>
@@ -57,7 +76,7 @@ export default class DirectorInfo extends Component {
                     </div>
                     <div className="col col-lg-2 info-col">
                         <div className="row info-row-inner">
-                            <p className="font-weight-bold">{"Birthday:"}</p>
+                            <p className="font-weight-bold">Birthday:</p>
                             <p className="font-weight-normal">
                                 {this.state.birthDate}
                             </p>
@@ -65,20 +84,20 @@ export default class DirectorInfo extends Component {
                     </div>
                 </div>
                 <div className="row movies-row">
-                    {/*<FilterableTable*/}
-                    {/*    data={this.state.movies}*/}
-                    {/*    addButtonText={"Add Movie"}*/}
-                    {/*    leftButtonText={this.getLeftButtonText}*/}
-                    {/*    rightButtonText={this.getRightButtonText}*/}
-                    {/*    isNotAdmin={this.state.isNotAdmin}*/}
-                    {/*    isInfo={true}*/}
-                    {/*    isMovieList={false}*/}
-                    {/*    addHandler={this.handleAddClick}*/}
-                    {/*    leftButtonHandler={this.handleLeftClick}*/}
-                    {/*    rightButtonHandler={this.handleRightClick}*/}
-                    {/*    infoHandler={this.handleInfoClick}*/}
-                    {/*    {...this.props}*/}
-                    {/*/>*/}
+                    <FilterableTable
+                        data={this.state.movies}
+                        addButtonText={"Add Movie"}
+                        leftButtonText={this.getLeftButtonText()}
+                        rightButtonText={this.getRightButtonText()}
+                        isNotAdmin={this.state.isNotAdmin}
+                        isInfo={true}
+                        isMovieList={true}
+                        addHandler={this.handleAddClick}
+                        leftButtonHandler={this.handleLeftClick}
+                        rightButtonHandler={this.handleRightClick}
+                        infoHandler={this.handleInfoClick}
+                        {...this.props}
+                    />
                 </div>
             </div>
         );
@@ -106,7 +125,7 @@ export default class DirectorInfo extends Component {
                     title: "400",
                     info: "Bad Request",
                     buttonText: "Go Back",
-                    link: "/"
+                    link: "/directors"
                 }
             });
         } else if (this.state.isNotFound) {
@@ -116,7 +135,7 @@ export default class DirectorInfo extends Component {
                     title: "404",
                     info: "The page you are looking for was not found",
                     buttonText: "Go Back",
-                    link: "/"
+                    link: "/directors"
                 }
             });
         } else if (this.state.isServerError) {
@@ -126,7 +145,7 @@ export default class DirectorInfo extends Component {
                     title: "500",
                     info: "Oops! Something went wrong",
                     buttonText: "Go Back",
-                    link: "/"
+                    link: "/directors"
                 }
             });
         }
@@ -148,39 +167,12 @@ export default class DirectorInfo extends Component {
         })
     };
 
-    catchError = (status) => {
-        if (status === 404) {
-            this.setState({
-                isNotFound: true,
-                isLoading: false
-            })
-        } else if (status === 400) {
-            this.setState({
-                isBadRequest: true,
-                isLoading: false
-            })
-        } else if (status === 500) {
-            this.setState({
-                isServerError: true,
-                isLoading: false
-            })
-        }
-    };
-
     getLeftButtonText = () => {
-        if (this.props.currentUser.role === "Admin") {
-            return "Update";
-        } else {
-            return "Add Watched";
-        }
+        return this.state.isNotAdmin ? "Watched" : "Update";
     };
 
     getRightButtonText = () => {
-        if (this.props.currentUser.role === "Admin") {
-            return "Update";
-        } else {
-            return "Add Favorite";
-        }
+        return this.state.isNotAdmin ? "Favorite" : "Delete";
     };
 
     handleAddClick = () => {
@@ -189,11 +181,7 @@ export default class DirectorInfo extends Component {
     };
 
     handleLeftClick = (movieID) => {
-        if (this.props.currentUser.role === "Admin") {
-            this.handleUpdateClick(movieID);
-        } else {
-            this.handleAddWatchedClick(movieID);
-        }
+        this.state.isNotAdmin ? this.handleAddWatchedClick(movieID) : this.handleUpdateClick(movieID);
     };
 
     handleUpdateClick = (movieID) => {
@@ -209,15 +197,11 @@ export default class DirectorInfo extends Component {
         addMovieToList(this.props.currentUser.id, "listID", movieID)
             .then((result) => {
                 // this.loadDirectorMovies();
-            }).catch((error) => this.catchError(error.status));
+            })
     };
 
     handleRightClick = (movieID) => {
-        if (this.props.currentUser.role === "Admin") {
-            this.handleDeleteClick(movieID);
-        } else {
-            this.handleAddFavoriteClick(movieID);
-        }
+        this.state.isNotAdmin ? this.this.handleAddFavoriteClick(movieID) : this.handleDeleteClick(movieID);
     };
 
     handleDeleteClick = (movieID) => {
@@ -225,9 +209,9 @@ export default class DirectorInfo extends Component {
         deleteMovie(movieID)
             .then((result) => {
                 this.loadDirectors();
-            }).catch(error => this.catchError(error.status));
+            })
         this.setState({
-            unAuthorized: this.props.currentUser.role !== "Admin"
+            unAuthorized: this.state.isNotAdmin
         });
     };
 
@@ -236,7 +220,7 @@ export default class DirectorInfo extends Component {
         addMovieToList(this.props.currentUser.id, "listID", movieID)
             .then((result) => {
                 // this.loadDirectorMovies();
-            }).catch((error) => this.catchError(error.status));
+            })
     };
 
     handleInfoClick = (movieID) => {

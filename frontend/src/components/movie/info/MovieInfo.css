@@ -1,13 +1,22 @@
-.movie-info-container {
-    margin-top: 100px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.30);
+.movie-icon-row {
+    margin-top: 20px;
 }
 
-.movie-info-container:hover {
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.50);
+.movie-info-director-div {
+    cursor: pointer;
 }
 
-.movie-info-col {
-    margin-top: 40px;
-    margin-left: 100px;
+.movie-info-button-row {
+    justify-content: center;
+    margin-bottom: 25px;
+    align-self: center;
+}
+
+.movie-info-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.movie-info-button {
+    min-width: 100px;
 }

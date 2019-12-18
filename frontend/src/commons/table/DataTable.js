@@ -13,7 +13,7 @@ export default class DataTable extends Component {
         this.setState({
             data: this.props.data,
         }, () => {
-            console.log("Data Table");
+            console.log("Data Table componentDidMount");
             console.log(this.props.data);
         })
     }
@@ -22,7 +22,7 @@ export default class DataTable extends Component {
         this.setState({
             data: nextProps.data,
         }, () => {
-            console.log("Data Table");
+            console.log("Data Table componentWillReceiveProps");
             console.log(this.props.data);
         })
     }
@@ -45,6 +45,7 @@ export default class DataTable extends Component {
     renderHeaders = () => {
         let headers = [];
         if (this.state.data) {
+            console.log(this.state.data);
             console.log(typeof this.state.data);
             let keys = Object.keys(this.state.data[0]);
             for (let key in keys) {

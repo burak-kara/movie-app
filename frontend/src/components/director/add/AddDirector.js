@@ -9,19 +9,31 @@ export default class AddDirector extends Component {
             director: null,
             dateType: "text",
             isUpdate: false,
-            isAuthorized: this.props.currentUser.role === "Admin"
         }
     }
 
     componentDidMount() {
-        let id;
+        this.checkAccessToken();
+        this.checkRole();
+        this.checkErrorStates();
         if (this.props.location.state) {
-            id = this.props.location.state.id;
+            let id = this.props.location.state.id;
+            if (id) {
+                this.loadDirector(id);
+                this.setState({
+                    isUpdate: true
+                });
+            }
         }
-        if (id) {
-            this.loadDirector(id);
-            this.setState({isUpdate: true});
-        }
+        this.setState({
+            isNotAdmin: localStorage.getItem("userRole") !== "Admin"
+        });
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({
+            isNotAdmin: localStorage.getItem("userRole") !== "Admin"
+        });
     }
 
     render() {
@@ -94,14 +106,14 @@ export default class AddDirector extends Component {
     };
 
     checkRole = () => {
-        if (!this.state.isAuthorized) {
+        if (this.state.isNotAdmin) {
             this.props.history.push({
                 pathname: "/error",
                 state: {
                     title: "401",
                     info: "Unauthorized Please Login as Admin",
                     buttonText: "Go Back",
-                    link: "/"
+                    link: "/directors"
                 }
             });
         }
@@ -148,7 +160,7 @@ export default class AddDirector extends Component {
                 director: response,
                 name: response.name,
                 surname: response.surname,
-                birthDate: response.birthDate,
+                birthDate: response.birthDate["day"] + "." + response.birthDate["month"] + "." + response.birthDate["year"],
                 isLoading: false
             });
         }).catch(error => this.catchError(error.status));
@@ -183,14 +195,16 @@ export default class AddDirector extends Component {
             const params = {
                 "name": this.state.name,
                 "surname": this.state.surname,
-                "birthDate": {
-                    "year": this.state.birthDate.split("-")[0],
-                    "month": this.state.birthDate.split("-")[1],
-                    "day": this.state.birthDate.split("-")[2]
+                "birthDate":{
+                    "day": parseInt(this.state.birthDate.split(".")[0]),
+                    "month": parseInt(this.state.birthDate.split(".")[1]),
+                    "year": parseInt(this.state.birthDate.split(".")[2])
                 }
             };
+            console.log("add director page for update");
             console.log(this.state.isUpdate);
             if (this.state.isUpdate) {
+                console.log(params);
                 updateDirector(this.props.location.state.id, params)
                     .then((response) => {
                         this.props.history.push("/directors");

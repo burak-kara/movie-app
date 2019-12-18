@@ -31,10 +31,15 @@ export function addMovie(addParams) {
     });
 }
 
-export function updateMovie(updateParams, movieId) {
+export function updateMovie(movieId, updateParams) {
     return request({
         url: MOVIE_URL + "/" + movieId,
         method: PUT,
+        credentials: 'same-origin',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(updateParams)
     });
 }

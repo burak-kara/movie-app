@@ -9,15 +9,14 @@ import Home from "../commons/home/Home";
 import Users from "../components/user/Users";
 import UserInfo from "../components/user/info/UserInfo"
 
-import Movies from "../components/movie/Movies";
-import MovieInfo from "../components/movie/info/MovieInfo";
-import AddMovie from "../components/movie/operations/AddMovie";
-
 import Directors from "../components/director/Directors";
 import DirectorInfo from "../components/director/info/DirectorInfo";
-import AddDirector from "../components/director/operations/AddDirector";
+import AddDirector from "../components/director/add/AddDirector";
 
 import WarningPage from "../commons/warning/WarningPage";
+import Movies from "../components/movie/Movies";
+import MovieInfo from "../components/movie/info/MovieInfo";
+import AddMovie from "../components/movie/add/AddMovie";
 
 class App extends Component {
     constructor(props) {
@@ -41,18 +40,31 @@ class App extends Component {
                 <Switch>
                     <Route
                         exact path="/"
-                        component={Home}
+                        render={(props) => <Home {...props}/>}
                     />
                     <Route
                         exact path="/login"
+                        render={(props) => <Login onLogin={this.handleLogin} {...props}/>}
+                    />
+                    <Route
+                        exact path="/please-login"
+                        render={(props) => <WarningPage {...props}/>}
+                    />
+                    <Route
+                        exact path="/error"
+                        render={(props) => <WarningPage {...props}/>}
+                    />
+                    <Route
+                        exact path="/movies"
                         render={(props) =>
-                            <Login
-                                onLogin={this.handleLogin}
+                            <Movies
+                                isAuthenticated={this.state.isAuthenticated}
+                                currentUser={this.state.currentUser}
                                 {...props}
                             />
                         }
                     />
-                    <Route
+                    <Route 
                         exact path="/users"
                         render={(props) =>
                             <Users
@@ -66,16 +78,6 @@ class App extends Component {
                         exact path="/users/:id"
                         render={(props) =>
                             <UserInfo
-                                isAuthenticated={this.state.isAuthenticated}
-                                currentUser={this.state.currentUser}
-                                {...props}
-                            />
-                        }
-                    />
-                    <Route
-                        exact path="/movies"
-                        render={(props) =>
-                            <Movies
                                 isAuthenticated={this.state.isAuthenticated}
                                 currentUser={this.state.currentUser}
                                 {...props}
@@ -110,18 +112,6 @@ class App extends Component {
                                 currentUser={this.state.currentUser}
                                 {...props}
                             />
-                        }
-                    />
-                    <Route
-                        exact path="/please-login"
-                        render={(props) =>
-                            <WarningPage {...props}/>
-                        }
-                    />
-                    <Route
-                        exact path="/error"
-                        render={(props) =>
-                            <WarningPage {...props}/>
                         }
                     />
                     <Route
@@ -178,10 +168,11 @@ class App extends Component {
         this.setState({
             currentUser: response.user,
             isAuthenticated: true,
-            isLoading: false
+            isLoading: false,
+            userID: response.user.id
         });
-        localStorage.setItem("user", response.user);
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("userRole", response.user.role);
         localStorage.setItem("userID", response.user.id);
     };
 }

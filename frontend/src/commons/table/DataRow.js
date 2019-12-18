@@ -12,7 +12,7 @@ export default class DataRow extends Component {
         this.setState({
             data: this.props.data,
         }, () => {
-            console.log("Data Row");
+            console.log("Data Row componentDidMount");
             console.log(this.props.data);
         })
     }
@@ -21,7 +21,7 @@ export default class DataRow extends Component {
         this.setState({
             data: nextProps.data,
         }, () => {
-            console.log("Data Row");
+            console.log("Data Row componentWillReceiveProps");
             console.log(this.props.data);
         })
     }
@@ -44,7 +44,6 @@ export default class DataRow extends Component {
                     <td
                         onClick={this.handleInfoClick}
                         style={{"cursor": "pointer"}}
-                        aria-disabled={this.props.isInfo}
                         key={key}
                     >
                         {this.getData(this.state.data[key], key)}
@@ -61,6 +60,9 @@ export default class DataRow extends Component {
     getData = (obj, key) => {
         if (key === "birthDate") {
             return obj["day"] + "." + obj["month"] + "." + obj["year"];
+        }
+        if (key === "director") {
+            return obj["name"] + " " + obj["surname"];
         } else {
             return obj
         }
@@ -77,7 +79,8 @@ export default class DataRow extends Component {
                             <button
                                 type="button" className="btn btn-success"
                                 disabled={
-                                    this.props.isMovieList ? false : this.props.isNotAdmin}
+                                    this.props.isMovieList ? false : this.props.isNotAdmin
+                                }
                                 onClick={this.leftButtonHandler}
                             >
                                 {this.props.leftButtonText}
@@ -87,9 +90,7 @@ export default class DataRow extends Component {
                             <button
                                 type="button" className="btn btn-danger"
                                 disabled={
-                                    this.props.isMovieList ? false :
-                                        this.props.isInfo ? false :
-                                            this.props.isNotAdmin
+                                    this.props.isMovieList ? false : this.props.isNotAdmin
                                 }
                                 onClick={this.rightButtonHandler}
                             >

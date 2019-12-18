@@ -1,16 +1,34 @@
 import React, {Component} from "react";
 import {NavLink} from "react-router-dom";
-import "./AppHeader.css";
 import {IoIosLogOut, IoIosSettings} from 'react-icons/io';
 import {FaHome, FaUserAlt} from 'react-icons/fa';
+import "./AppHeader.css";
 
 export default class AppHeader extends Component {
-    render() {
-        if (this.props.currentUser) {
-            return (this.renderUserBar());
-        } else {
-            return (this.renderBar());
+    constructor(props) {
+        super(props);
+        this.state = {
+            isAuthenticated: false,
+            userID: ""
         }
+    }
+
+    componentDidMount() {
+        this.setState({
+            isAuthenticated: this.props.isAuthenticated,
+            userID: this.props.userID
+        });
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.setState({
+            isAuthenticated: nextProps.isAuthenticated,
+            userID:nextProps.userID
+        })
+    }
+
+    render() {
+        return this.state.isAuthenticated ? this.renderUserBar() : this.renderBar();
     }
 
     renderUserBar = () => {
@@ -22,7 +40,7 @@ export default class AppHeader extends Component {
                 <li><NavLink to="/movies">Movies</NavLink></li>
                 <li><NavLink to="/directors">Directors</NavLink></li>
                 <li className="profile">
-                    <NavLink to={`/users/${this.props.currentUser.id}`}><FaUserAlt/> Profile</NavLink>
+                    <NavLink to={`/users/${this.state.userID}`}><FaUserAlt/> Profile</NavLink>
                     <div className="profileContent">
                         <NavLink className="settings" to="/settings"><IoIosSettings/> Settings</NavLink>
                         <NavLink className="logout" to="/" onClick={this.props.onLogout}><IoIosLogOut/> Logout</NavLink>

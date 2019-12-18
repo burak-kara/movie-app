@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {deleteDirector, getAllDirectors} from "../../utils/DirectorUtils";
 import FilterableTable from "../../commons/table/FilterableTable";
 import {ACCESS_TOKEN} from "../../utils/Constants";
-import "./Directors.css";
 import LoadingIndicator from "../../commons/loading/LoadingIndicator";
+import "./Directors.css";
 
 export default class Directors extends Component {
     constructor(props) {
@@ -11,12 +11,16 @@ export default class Directors extends Component {
         this.state = {
             data: null,
             isLoading: true,
-            isNotAdmin: this.props.currentUser.role !== "Admin"
+            isNotAdmin: true
         }
     }
 
     componentDidMount() {
+        this.checkAccessToken();
         this.loadDirectors();
+        this.setState({
+            isNotAdmin: localStorage.getItem("userRole") !== "Admin"
+        });
     }
 
     render() {
@@ -47,41 +51,6 @@ export default class Directors extends Component {
         );
     }
 
-    loadDirectors = () => {
-        this.setState({
-            isLoading: true
-        });
-        getAllDirectors()
-            .then(response => {
-                this.setState({
-                    data: response,
-                    isLoading: false
-                }, () => {
-                    console.log("inside get all directors" + this.state.data);
-                });
-            }).catch(error => this.catchError(error.status))
-    };
-
-    catchError = (status) => {
-        console.log("asd" + status);
-        if (status === 404) {
-            this.setState({
-                isNotFound: true,
-                isLoading: false
-            })
-        } else if (status === 400) {
-            this.setState({
-                isBadRequest: true,
-                isLoading: false
-            })
-        } else if (status === 500) {
-            this.setState({
-                isServerError: true,
-                isLoading: false
-            })
-        }
-    };
-
     checkAccessToken = () => {
         if (!localStorage.getItem(ACCESS_TOKEN)) {
             this.props.history.push({
@@ -94,6 +63,22 @@ export default class Directors extends Component {
                 }
             });
         }
+    };
+
+    loadDirectors = () => {
+        this.setState({
+            isLoading: true
+        });
+        getAllDirectors()
+            .then(response => {
+                this.setState({
+                    data: response,
+                    isLoading: false
+                }, () => {
+                    console.log("inside get all directors"); // TODO delete
+                    console.log(this.state.data);
+                });
+            })
     };
 
     checkErrorStates = () => {
@@ -149,11 +134,10 @@ export default class Directors extends Component {
     handleDeleteClick = (directorID) => {
         console.log("-----------director delete------------");
         deleteDirector(directorID)
-            .then(response => {
+            .then((response) => {
                 console.log("Deleted done in directors");
                 this.loadDirectors();
             })
-            .catch((error) => this.catchError(error.status));
     };
 
     handleInfoClick = (directorID) => {
