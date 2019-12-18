@@ -61,9 +61,8 @@ export function getMoviesFromUserList(userId, listId) {
 // TODO how to add movie to the list
 export function addMovieToList(userId, listId, movieId) {
     return request({
-        url: USER_URL + "/" + userId + "/lists/" + listId,
-        method: POST,
-        body: JSON.stringify(movieId) // TODO possible mistake
+        url: USER_URL + "/" + userId + "/" + listId + "/" + movieId,
+        method: GET,
     });
 }
 

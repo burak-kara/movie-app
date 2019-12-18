@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {ACCESS_TOKEN} from "../../../utils/Constants";
 import {deleteUser, getMoviesFromUserList} from "../../../utils/UserUtils";
-import LoadingIndicator from "../../../commons/loading/LoadingIndicator";
 import FilterableTable from "../../../commons/table/FilterableTable";
 
 export default class MovieList extends Component {
