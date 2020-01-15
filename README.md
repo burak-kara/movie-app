@@ -1,2 +1,2 @@
 # movie-app
-Restful Web App using Spring Boot and React.js
+Restful Web App front-end using React.js
